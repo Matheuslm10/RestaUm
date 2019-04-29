@@ -22,23 +22,22 @@ def buscarMovimentosPossiveis(state):
     d_mvmt = [1, 1, 0]  # Requisito de posicionamento vertical no tabuleiro para movimentar a peça para baixo
     u_mvmt = [0, 1, 1]  # Requisito de posicionamento vertical no tabuleiro para movimentar a peça para cima
 
-    movements_list = [[], [], [],
-                      []]  # Lista de movimentos possíveis no estado atual - [[r_mvmt], [l_mvmt], [d_mvmt], [u_mvmt]]
+    movements_list = [[], [], [], []]  # Lista de movimentos possíveis no estado atual - [[r_mvmt], [l_mvmt], [d_mvmt], [u_mvmt]]
 
     # Varredura horizontal
     for row in range(0, len(state)):
         for col in range(0, len(state[0]) - 2):
 
-            # A área de busca corresponde a 3 peças vizinhas posicionadas horizontalmente (peça da coluna atual mais os dois vizinhos à direita dessa)
+            # A área de busca corresponde a 3 casas vizinhas posicionadas horizontalmente (peça da coluna atual mais os dois vizinhos à direita dessa)
             search_area = [state[row, col], state[row, col + 1], state[row, col + 2]]
 
+            # movements_list[0] armazena a coordenada(x,y) do trio de peças correspondentes ao padrão de movimentação para direita
             if (search_area == r_mvmt):
-                movements_list[0].append([[row, col], [row, col + 1], [row,
-                                                                       col + 2]])  # movements_list[0] armazena a coordenada(x,y) do trio de peças correspondentes ao padrão de movimentação para direita
+                movements_list[0].append([[row, col], [row, col + 1], [row, col + 2]])
 
+            # movements_list[1] armazena a coordenada(x,y) do trio de peças correspondentes ao padrão de movimentação para esquerda
             if (search_area == l_mvmt):
-                movements_list[1].append([[row, col], [row, col + 1], [row,
-                                                                       col + 2]])  # movements_list[1] armazena a coordenada(x,y) do trio de peças correspondentes ao padrão de movimentação para esquerda
+                movements_list[1].append([[row, col], [row, col + 1], [row, col + 2]])
 
     # Varredura vertical
     for row in range(0, len(state) - 2):
@@ -90,11 +89,11 @@ def move(state, mvmt):
 
 
 def gerarFilhos(father):
-    list_of_sons = []  # Lista para armazenamento dos filhos do pai atual
+    list_of_sons = []
 
-    movements_list = buscarMovimentosPossiveis(father)  # Verificação das movimentações possíveis
+    movements_list = buscarMovimentosPossiveis(father)
 
-    # print(movements_list) <- SE PRECISAREM VISUALIZAR A LISTA DE MOVIMENTOS
+    #print(movements_list) #<- SE PRECISAREM VISUALIZAR A LISTA DE MOVIMENTOS
 
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
@@ -122,7 +121,7 @@ def aEstrela(tabuleiro):
     # Armazenamento de informações
     parents = dict()
     candidates = [tabuleiro]  # Lista dos nós candidatos a serem visitados
-    visited = [tabuleiro]  # Lista dos nós já visitados
+    visited = [tabuleiro]     # Lista dos nós já visitados
 
     while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
         father = candidates[0]
@@ -149,10 +148,9 @@ if __name__ == '__main__':
                                     [1, 1, 1, 0, 1, 1, 1],
                                     [1, 1, 1, 1, 1, 1, 1],
                                     [0, 0, 1, 1, 1, 0, 0],
-                                    [0, 0, 1, 1, 1, 0, 0]])  # Posição inicial da peças no tabuleiro
+                                    [0, 0, 1, 1, 1, 0, 0]])
 
-    posicao_inicial = numpy.where(posicao_inicial == 0, -1,
-                                  posicao_inicial)  # Alterando posições com valores igual a 0 para -1
+    posicao_inicial = numpy.where(posicao_inicial == 0, -1, posicao_inicial)  # Alterando posições com valores igual a 0 para -1
     posicao_inicial[3][3] = 0  # Retornando valor da peça central para 0
 
     # print(posicao_inicial)
