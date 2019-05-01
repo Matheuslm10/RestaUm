@@ -14,7 +14,10 @@ import numpy
 """
 # TODO - DESCRIÇÃO DO MÉTODO
 """
-def escolherMelhorFilho(list_of_sons):
+def escolherMelhorCandidato(list_of_sons):
+    if(len(list_of_sons) == 1):
+        return list_of_sons[0]
+
     matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
                                      [100, 100,   3,   2,   3, 100, 100],
                                      [   4,  3,   2,   1,   2,   3,   4],
@@ -145,43 +148,49 @@ def gerarFilhos(father):
 """
 # TODO - DESCRIÇÃO DO MÉTODO
 """
-def aEstrela(tabuleiro):
+def aEstrela(estado):
     # Armazenamento de informações
-    parents = dict()
-    candidates = [tabuleiro]  # Lista dos nós candidatos a serem visitados
-    visited = [tabuleiro]     # Lista dos nós já visitados
+
+    ######################3
+    #parents = dict()
+    candidates = [estado]  # Lista dos nós candidatos a serem visitados
+    visited = []     # Lista dos nós já visitados
 
     while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
-        father = candidates[0]
-        del candidates[0]
+        father = escolherMelhorCandidato(candidates)
+
+        #tem que verficar aqui se father é o estado final
+
+        visited.append(father)
+        candidates.remove(father)
 
         list_of_sons = gerarFilhos(father)  # Gerando os filhos do pai atual
-        print('Melhor filho:')
-        print(escolherMelhorFilho(list_of_sons))
-        # ... To Be Continued ...
-        # Verificações de custos
-        # Adicionar filhos na lista de candidatos de acordo com os requisitos do algoritmo A*
-        # .
-        # .
-        # .
-        # Foi tudi lembrei... tem que olhar no A* e ver oque mais pede
+
+        for son in list_of_sons:
+            candidates.append(son)
+
+        break
 
 
 """
 # TODO - DESCRIÇÃO DO MÉTODO
 """
+def limparPosicoesVazias(tabuleiro_inicial):
+    tabuleiro_inicial = numpy.where(tabuleiro_inicial == 0, -1, tabuleiro_inicial)  # Alterando posições com valores igual a 0 para -1
+    tabuleiro_inicial[3][3] = 0  # Retornando valor da peça central para 0
+    return tabuleiro_inicial
+
+"""
+# TODO - DESCRIÇÃO DO MÉTODO
+"""
 if __name__ == '__main__':
-    posicao_inicial = numpy.matrix([[0, 0, 1, 1, 1, 0, 0],
-                                    [0, 0, 1, 1, 1, 0, 0],
-                                    [1, 1, 1, 1, 1, 1, 1],
-                                    [1, 1, 1, 0, 1, 1, 1],
-                                    [1, 1, 1, 1, 1, 1, 1],
-                                    [0, 0, 1, 1, 1, 0, 0],
-                                    [0, 0, 1, 1, 1, 0, 0]])
+    estado_inicial_recebido = numpy.matrix([[0, 0, 1, 1, 1, 0, 0],
+                                   [0, 0, 1, 1, 1, 0, 0],
+                                   [1, 1, 1, 1, 1, 1, 1],
+                                   [1, 1, 1, 0, 1, 1, 1],
+                                   [1, 1, 1, 1, 1, 1, 1],
+                                   [0, 0, 1, 1, 1, 0, 0],
+                                   [0, 0, 1, 1, 1, 0, 0]])
 
-    posicao_inicial = numpy.where(posicao_inicial == 0, -1, posicao_inicial)  # Alterando posições com valores igual a 0 para -1
-    posicao_inicial[3][3] = 0  # Retornando valor da peça central para 0
-
-    # print(posicao_inicial)
-
-    aEstrela(posicao_inicial)
+    estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    aEstrela(estado_inicial_tratado)
