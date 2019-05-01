@@ -5,9 +5,9 @@
 # TODO - DESCRIÇÃO DO MOTIVO DE IMPLEMENTAÇÃO DESTE ARQUIVO
 """
 
-__author__ = "Aryslene Sobrenome"
+__author__ = "Aryslene Bitencourt"
 __author__ = "Felipe Caggi"
-__author__ = "Matheus Sobrenome"
+__author__ = "Matheus Lima Machado"
 
 import numpy
 
