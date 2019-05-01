@@ -12,11 +12,28 @@ __author__ = "Matheus Lima Machado"
 import numpy
 
 """
+Soma todos os valores das casas, o objetivo é -15. 
+Já que existem 16 espaços que não fazem parte do tabuleiro, e o objetivo é ter somente uma peça no tabuleiro.
+Então: (16*-1)+1 = -15
+"""
+def isFinalState(father):
+    count = 0
+    for row in range(0, len(father)):
+        for col in range(0, len(father[0])):
+            count = count + father[row, col]
+
+    if(count == -15):
+        return True
+    else:
+        return False
+
+"""
 # TODO - DESCRIÇÃO DO MÉTODO
 """
-def escolherMelhorCandidato(list_of_sons):
-    if(len(list_of_sons) == 1):
-        return list_of_sons[0]
+def verificaIndiceDoMelhorCandidato(candidates):
+    if(len(candidates) == 1):
+        print('vetor de avaliações: [88]')
+        return candidates[0]
 
     matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
                                      [100, 100,   3,   2,   3, 100, 100],
@@ -27,10 +44,10 @@ def escolherMelhorCandidato(list_of_sons):
                                      [100, 100,   4,   3,   4, 100, 100]])
 
     #COMPARA A MATRIZ DE MANHATTAN COM CADA FILHO
-    evaluations_array = numpy.arange(len(list_of_sons))
+    evaluations_array = numpy.arange(len(candidates))
     eval = 0
     son_index = 0
-    for son in list_of_sons:
+    for son in candidates:
         for row in range(0, len(son)):
             for col in range(0, len(son[0])):
                 #se for igual a 1, eu somo o valor da posicao equivalente ao meu contador de FA
@@ -41,11 +58,11 @@ def escolherMelhorCandidato(list_of_sons):
         son_index = son_index + 1
 
     result = numpy.where(evaluations_array == numpy.amin(evaluations_array))
-    # 'result' na posicao 0 retorna uma lista de indices dos valores com o valor minimo
-    #print(result[0])
+    print('vetor de avaliações: ',evaluations_array)
+
     bests_sons_indexes = result[0]
     best_son_chosen_index = bests_sons_indexes[0] #caso tenha empate de minimos, vai sempre escolher o q estiver na posicao 0
-    return list_of_sons[best_son_chosen_index]
+    return best_son_chosen_index
 
 """
 Este método alterna entre 1 e 0 os valores das peças localizadas na lista de coordenadas recebidas no parâmentro 'mvmt'
@@ -131,10 +148,6 @@ def gerarFilhos(father):
             son = move(father_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    print('Father')  # Exibindo pai atual
-    print(father)
-    print('\n')
-
     count = 1
     for son in list_of_sons:  # Exibindo cada filho do pai atual
         print('Filho', count)
@@ -156,20 +169,41 @@ def aEstrela(estado):
     candidates = [estado]  # Lista dos nós candidatos a serem visitados
     visited = []     # Lista dos nós já visitados
 
-    while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
-        father = escolherMelhorCandidato(candidates)
+    numInteracoes = 3
+    iteracoes = 3
 
-        #tem que verficar aqui se father é o estado final
+    #while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
+    while iteracoes > 0:
+        print('------------------------------------__')
+        print('Candidatos: ')
+        for son in candidates:
+            print(son)
+            print('\n')
+        print('Visidatos: ')
+        for son in visited:
+            print(son)
+            print('\n')
+        print('____________________________________--')
 
-        visited.append(father)
-        candidates.remove(father)
+        fatherIndex = verificaIndiceDoMelhorCandidato(candidates)
 
-        list_of_sons = gerarFilhos(father)  # Gerando os filhos do pai atual
+        if(isFinalState(candidates[fatherIndex])):
+            break
+        else:
+            print("Father (Não é solução!)")
+            print(candidates[fatherIndex])
+            print('\n')
+
+        visited.append(candidates[fatherIndex])
+        candidates.pop(fatherIndex)
+
+        list_of_sons = gerarFilhos(candidates[fatherIndex])  # Gerando os filhos do pai atual
 
         for son in list_of_sons:
             candidates.append(son)
 
-        break
+        iteracoes = iteracoes - 1
+
 
 
 """
@@ -185,12 +219,12 @@ def limparPosicoesVazias(tabuleiro_inicial):
 """
 if __name__ == '__main__':
     estado_inicial_recebido = numpy.matrix([[0, 0, 1, 1, 1, 0, 0],
-                                   [0, 0, 1, 1, 1, 0, 0],
-                                   [1, 1, 1, 1, 1, 1, 1],
-                                   [1, 1, 1, 0, 1, 1, 1],
-                                   [1, 1, 1, 1, 1, 1, 1],
-                                   [0, 0, 1, 1, 1, 0, 0],
-                                   [0, 0, 1, 1, 1, 0, 0]])
+                                            [0, 0, 1, 1, 1, 0, 0],
+                                            [1, 1, 1, 1, 1, 1, 1],
+                                            [1, 1, 1, 0, 1, 1, 1],
+                                            [1, 1, 1, 1, 1, 1, 1],
+                                            [0, 0, 1, 1, 1, 0, 0],
+                                            [0, 0, 1, 1, 1, 0, 0]])
 
     estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
     aEstrela(estado_inicial_tratado)
