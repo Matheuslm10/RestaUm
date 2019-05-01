@@ -14,8 +14,60 @@ import numpy
 """
 # TODO - DESCRIÇÃO DO MÉTODO
 """
+def escolherMelhorFilho(list_of_sons):
+    matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
+                                     [100, 100,   3,   2,   3, 100, 100],
+                                     [   4,  3,   2,   1,   2,   3,   4],
+                                     [   3,  2,   1,   0,   1,   2,   3],
+                                     [   4,  3,   2,   1,   2,   3,   4],
+                                     [100, 100,   3,   2,   3, 100, 100],
+                                     [100, 100,   4,   3,   4, 100, 100]])
 
+    #COMPARA A MATRIZ DE MANHATTAN COM CADA FILHO
+    evaluations_array = numpy.arange(len(list_of_sons))
+    eval = 0
+    son_index = 0
+    for son in list_of_sons:
+        for row in range(0, len(son)):
+            for col in range(0, len(son[0])):
+                #se for igual a 1, eu somo o valor da posicao equivalente ao meu contador de FA
+                if(son[row, col] == 1):
+                    eval += matriz_manhattan[row, col]
+        evaluations_array[son_index] = eval
+        eval = 0
+        son_index = son_index + 1
 
+    result = numpy.where(evaluations_array == numpy.amin(evaluations_array))
+    # 'result' na posicao 0 retorna uma lista de indices dos valores com o valor minimo
+    #print(result[0])
+    bests_sons_indexes = result[0]
+    best_son_chosen_index = bests_sons_indexes[0] #caso tenha empate de minimos, vai sempre escolher o q estiver na posicao 0
+    return list_of_sons[best_son_chosen_index]
+
+"""
+Este método alterna entre 1 e 0 os valores das peças localizadas na lista de coordenadas recebidas no parâmentro 'mvmt'
+
+    Se a peça possui valor 1, será trocado para o valor 0
+    Se a peça possui valor 0, será trocado para o valor 1
+
+    Essa troca de valores corresponde à movimentação das peças de acordo com as análises realizadas
+"""
+def move(state, mvmt):
+    for piece in mvmt:
+
+        if state[piece[0]][
+            piece[1]] == 0:  # Verifica se o valor da peça na coordenada atual(piece[0], piece[1]) possui valor '1'
+            state[piece[0]][piece[1]] = 1
+
+        elif state[piece[0]][
+            piece[1]] == 1:  # Verifica se o valor da peça na coordenada atual(piece[0], piece[1]) possui valor '0'
+            state[piece[0]][piece[1]] = 0
+
+    return state;
+
+"""
+# TODO - DESCRIÇÃO DO MÉTODO
+"""
 def buscarMovimentosPossiveis(state):
     r_mvmt = [1, 1, 0]  # Requisito de posicionamento horizontal no tabuleiro para movimentar a peça para direita
     l_mvmt = [0, 1, 1]  # Requisito de posicionamento horizontal no tabuleiro para movimentar a peça para esquerda
@@ -60,34 +112,8 @@ def buscarMovimentosPossiveis(state):
 
 
 """
-Este método alterna entre 1 e 0 os valores das peças localizadas na lista de coordenadas recebidas no parâmentro 'mvmt'
-
-    Se a peça possui valor 1, será trocado para o valor 0
-    Se a peça possui valor 0, será trocado para o valor 1
-
-    Essa troca de valores corresponde à movimentação das peças de acordo com as análises realizadas
-"""
-
-
-def move(state, mvmt):
-    for piece in mvmt:
-
-        if state[piece[0]][
-            piece[1]] == 0:  # Verifica se o valor da peça na coordenada atual(piece[0], piece[1]) possui valor '1'
-            state[piece[0]][piece[1]] = 1
-
-        elif state[piece[0]][
-            piece[1]] == 1:  # Verifica se o valor da peça na coordenada atual(piece[0], piece[1]) possui valor '0'
-            state[piece[0]][piece[1]] = 0
-
-    return state;
-
-
-"""
 # TODO - DESCRIÇÃO DO MÉTODO
 """
-
-
 def gerarFilhos(father):
     list_of_sons = []
 
@@ -102,11 +128,15 @@ def gerarFilhos(father):
             son = move(father_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    print('\nFather\n', father)  # Exibindo pai atual
+    print('Father')  # Exibindo pai atual
+    print(father)
+    print('\n')
 
     count = 1
     for son in list_of_sons:  # Exibindo cada filho do pai atual
-        print('\nFilho', count, '\n', son)
+        print('Filho', count)
+        print(son)
+        print('\n')
         count += 1
 
     return list_of_sons
@@ -115,8 +145,6 @@ def gerarFilhos(father):
 """
 # TODO - DESCRIÇÃO DO MÉTODO
 """
-
-
 def aEstrela(tabuleiro):
     # Armazenamento de informações
     parents = dict()
@@ -128,7 +156,8 @@ def aEstrela(tabuleiro):
         del candidates[0]
 
         list_of_sons = gerarFilhos(father)  # Gerando os filhos do pai atual
-
+        print('Melhor filho:')
+        print(escolherMelhorFilho(list_of_sons))
         # ... To Be Continued ...
         # Verificações de custos
         # Adicionar filhos na lista de candidatos de acordo com os requisitos do algoritmo A*
