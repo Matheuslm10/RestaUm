@@ -11,30 +11,41 @@ __author__ = "Matheus Lima Machado"
 
 import numpy
 
+
 """
-Soma todos os valores das casas, o objetivo é -15. 
+DESCRIÇÃO: Soma todos os valores das casas.
+Para ser considerado estado final, soma deve dar -15. 
 Já que existem 16 espaços que não fazem parte do tabuleiro, e o objetivo é ter somente uma peça no tabuleiro.
 Então: (16*-1)+1 = -15
 """
+smallerSoFar = 100
 def isFinalState(father):
+    global smallerSoFar
     count = 0
     for row in range(0, len(father)):
         for col in range(0, len(father[0])):
             count = count + father[row, col]
 
-    if(count == -15):
+    if (count == -15):
         return True
     else:
+        print('Número de peças no tabuleiro: ', count+16)
+        if ((count + 16) < smallerSoFar):
+            smallerSoFar = count+16
+        print('Menor num de peças até agora: ', smallerSoFar)
         return False
 
 """
-# TODO - DESCRIÇÃO DO MÉTODO
+DESCRIÇÃO: o método abaixo avalia cada candidato (se existir mais de 1 candidato), e gera um array com avaliações desses candidatos.
+Depois calcula a melhor avaliação (menor número) e retorna o índice do candidato que possui a melhor avaliação. 
 """
 def verificaIndiceDoMelhorCandidato(candidates):
     if(len(candidates) == 1):
         print('vetor de avaliações: [88]')
-        return candidates[0]
+        return 0
 
+    #MATRIZ COM OS PESOS DE CADA POSIÇÃO UTILIZANDO A DISTÂNCIA DE MANHATTAN...
+    #...(EM RELAÇÃO AO CENTRO DO TABULEIRO) COMO CRITÉRIO.
     matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
                                      [100, 100,   3,   2,   3, 100, 100],
                                      [   4,  3,   2,   1,   2,   3,   4],
@@ -43,34 +54,35 @@ def verificaIndiceDoMelhorCandidato(candidates):
                                      [100, 100,   3,   2,   3, 100, 100],
                                      [100, 100,   4,   3,   4, 100, 100]])
 
-    #COMPARA A MATRIZ DE MANHATTAN COM CADA FILHO
+    #COMPARA A MATRIZ MANHATTAN COM CADA FILHO
     evaluations_array = numpy.arange(len(candidates))
     eval = 0
-    son_index = 0
-    for son in candidates:
-        for row in range(0, len(son)):
-            for col in range(0, len(son[0])):
-                #se for igual a 1, eu somo o valor da posicao equivalente ao meu contador de FA
-                if(son[row, col] == 1):
+    candidate_index = 0
+    for candidate in candidates:
+        for row in range(0, len(candidate)):
+            for col in range(0, len(candidate[0])):
+                #se for igual a 1, eu somo o valor da posicao equivalente (na matriz de manhattan) ao meu contador de FA
+                if(candidate[row, col] == 1):
                     eval += matriz_manhattan[row, col]
-        evaluations_array[son_index] = eval
-        eval = 0
-        son_index = son_index + 1
 
-    result = numpy.where(evaluations_array == numpy.amin(evaluations_array))
+        evaluations_array[candidate_index] = eval
+        eval = 0
+        candidate_index += 1
+
+    result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
     print('vetor de avaliações: ',evaluations_array)
 
-    bests_sons_indexes = result[0]
-    best_son_chosen_index = bests_sons_indexes[0] #caso tenha empate de minimos, vai sempre escolher o q estiver na posicao 0
-    return best_son_chosen_index
+    bests_candidates_indexes = result[0]
+    best_candidate_chosen_index = bests_candidates_indexes[0] #caso tenha empate de minimos, vai escolher o q estiver na posicao 0
+
+    return best_candidate_chosen_index
 
 """
-Este método alterna entre 1 e 0 os valores das peças localizadas na lista de coordenadas recebidas no parâmentro 'mvmt'
-
-    Se a peça possui valor 1, será trocado para o valor 0
-    Se a peça possui valor 0, será trocado para o valor 1
-
-    Essa troca de valores corresponde à movimentação das peças de acordo com as análises realizadas
+DESCRIÇÃO: Este método realiza a movimentação das peças de acordo com as análises realizadas.
+Na prática o método alterna entre 1 e 0 os valores das peças localizadas na lista de coordenadas 
+recebidas no parâmentro 'mvmt'.
+Se a peça possui valor 1, será trocado para o valor 0.
+Se a peça possui valor 0, será trocado para o valor 1.
 """
 def move(state, mvmt):
     for piece in mvmt:
@@ -86,9 +98,10 @@ def move(state, mvmt):
     return state;
 
 """
-# TODO - DESCRIÇÃO DO MÉTODO
+DESCRIÇÃO: Este método busca todos os movimentos que podem ser realizados 
+a partir de um estado de um tabuleiro.
 """
-def buscarMovimentosPossiveis(state):
+def searchPossibleMovements(state):
     r_mvmt = [1, 1, 0]  # Requisito de posicionamento horizontal no tabuleiro para movimentar a peça para direita
     l_mvmt = [0, 1, 1]  # Requisito de posicionamento horizontal no tabuleiro para movimentar a peça para esquerda
     d_mvmt = [1, 1, 0]  # Requisito de posicionamento vertical no tabuleiro para movimentar a peça para baixo
@@ -132,14 +145,12 @@ def buscarMovimentosPossiveis(state):
 
 
 """
-# TODO - DESCRIÇÃO DO MÉTODO
+DESCRIÇÃO: Este método analisa um estado (pai) e gera estados filhos a partir dele.
 """
 def gerarFilhos(father):
     list_of_sons = []
 
-    movements_list = buscarMovimentosPossiveis(father)
-
-    #print(movements_list) #<- SE PRECISAREM VISUALIZAR A LISTA DE MOVIMENTOS
+    movements_list = searchPossibleMovements(father)
 
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
@@ -148,12 +159,15 @@ def gerarFilhos(father):
             son = move(father_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    count = 1
-    for son in list_of_sons:  # Exibindo cada filho do pai atual
-        print('Filho', count)
-        print(son)
-        print('\n')
-        count += 1
+    # count = 1
+    # for son in list_of_sons:  # Exibindo cada filho do pai atual
+    #     print('Filho', count)
+    #     print(son)
+    #     print('\n')
+    #     count += 1
+
+    print('\n')
+    print('Gerou os filhos!')
 
     return list_of_sons
 
@@ -162,48 +176,52 @@ def gerarFilhos(father):
 # TODO - DESCRIÇÃO DO MÉTODO
 """
 def aEstrela(estado):
-    # Armazenamento de informações
 
-    ######################3
     #parents = dict()
-    candidates = [estado]  # Lista dos nós candidatos a serem visitados
-    visited = []     # Lista dos nós já visitados
+    candidates = [estado]
+    visited = []
+    total_de_interacoes = 0
 
-    numInteracoes = 3
-    iteracoes = 3
+    while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
 
-    #while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
-    while iteracoes > 0:
-        print('------------------------------------__')
-        print('Candidatos: ')
-        for son in candidates:
-            print(son)
-            print('\n')
-        print('Visidatos: ')
-        for son in visited:
-            print(son)
-            print('\n')
-        print('____________________________________--')
+        # print('------------------------------------__')
+        # print('Candidatos: ')
+        # for son in candidates:
+        #     print(son)
+        #     print('\n')
+        # print('Visidatos: ')
+        # for son in visited:
+        #     print(son)
+        #     print('\n')
+        # print('____________________________________--')
 
         fatherIndex = verificaIndiceDoMelhorCandidato(candidates)
+        father = candidates[fatherIndex]
 
-        if(isFinalState(candidates[fatherIndex])):
+        print('\n')
+        print('Melhor candidato:')
+        print(father)
+
+        if(isFinalState(father)):
+            print('Sucesso! Solução encontrada!')
             break
         else:
-            print("Father (Não é solução!)")
-            print(candidates[fatherIndex])
-            print('\n')
+            print('Essa ainda não é a solução...')
 
-        visited.append(candidates[fatherIndex])
+
+
+        list_of_sons = gerarFilhos(father)  # Gerando os filhos do pai atual
+
+        visited.append(father)
         candidates.pop(fatherIndex)
-
-        list_of_sons = gerarFilhos(candidates[fatherIndex])  # Gerando os filhos do pai atual
 
         for son in list_of_sons:
             candidates.append(son)
 
-        iteracoes = iteracoes - 1
+        total_de_interacoes += 1
+        print('total de interações: ', total_de_interacoes)
 
+    print('Solução não encontrada :( ')
 
 
 """
@@ -215,7 +233,7 @@ def limparPosicoesVazias(tabuleiro_inicial):
     return tabuleiro_inicial
 
 """
-# TODO - DESCRIÇÃO DO MÉTODO
+DESCRIÇÃO: Este método é responsável por executar o programa.
 """
 if __name__ == '__main__':
     estado_inicial_recebido = numpy.matrix([[0, 0, 1, 1, 1, 0, 0],
