@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a16dfc84-e420-4d8b-bc0d-134ff95e8452" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaUm.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaUm.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="158" column="2" lean-forward="true" selection-start-line="158" selection-start-column="2" selection-end-line="158" selection-end-column="2" />
+            <state relative-caret-position="80">
+              <caret line="45" column="16" lean-forward="true" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
               <folding>
                 <element signature="e#216#228#0" expanded="true" />
               </folding>
@@ -44,9 +43,10 @@
       <find>estado</find>
       <find>list_of_sons</find>
       <find>son</find>
-      <find>Número de peças no tabuleiro:  4</find>
       <find>Número de peças no tabuleiro:  2</find>
       <find>posicao aleatoria escolhida:</find>
+      <find>Número de peças no tabuleiro:  3</find>
+      <find>Número de peças no tabuleiro:  4</find>
     </findStrings>
     <replaceStrings>
       <replace>9</replace>
@@ -68,17 +68,16 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1146" />
+    <option name="x" value="1145" />
     <option name="y" value="65" />
-    <option name="width" value="611" />
-    <option name="height" value="897" />
+    <option name="width" value="613" />
+    <option name="height" value="898" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -90,6 +89,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -155,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1556919158156</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="ta indo pra um caminho ruim, o caminho dos solitários">
+      <created>1556923506929</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1556923506929</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -166,7 +173,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42589703" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.82683307" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.6068643" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -182,13 +189,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="smallerSoFar = 2, quando tem empate, escolhe o da primeira posição" />
-    <option name="LAST_COMMIT_MESSAGE" value="smallerSoFar = 2, quando tem empate, escolhe o da primeira posição" />
+    <MESSAGE value="ta indo pra um caminho ruim, o caminho dos solitários" />
+    <option name="LAST_COMMIT_MESSAGE" value="ta indo pra um caminho ruim, o caminho dos solitários" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/restaUm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="158" column="2" lean-forward="true" selection-start-line="158" selection-start-column="2" selection-end-line="158" selection-end-column="2" />
+        <state relative-caret-position="80">
+          <caret line="45" column="16" lean-forward="true" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
           <folding>
             <element signature="e#216#228#0" expanded="true" />
           </folding>
