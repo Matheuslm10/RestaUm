@@ -5,9 +5,9 @@
 # TODO - DESCRIÇÃO DO MOTIVO DE IMPLEMENTAÇÃO DESTE ARQUIVO
 """
 
-__author__ = "Aryslene Bitencourt"
-__author__ = "Felipe Caggi"
-__author__ = "Matheus Lima Machado"
+__author__ = "Aryslene Santos Bitencourt [RGA: 201519060122]"
+__author__ = "Felipe Alves Matos Caggi [RGA: 201719060061]"
+__author__ = "Matheus Lima Machado [RGA: 201519060068]"
 
 import numpy
 from random import randint
@@ -20,12 +20,12 @@ Já que existem 16 espaços que não fazem parte do tabuleiro, e o objetivo é t
 Então: (16*-1)+1 = -15
 """
 smallerSoFar = 100
-def isFinalState(father):
+def isFinalState(parent):
     global smallerSoFar
     count = 0
-    for row in range(0, len(father)):
-        for col in range(0, len(father[0])):
-            count = count + father[row, col]
+    for row in range(0, len(parent)):
+        for col in range(0, len(parent[0])):
+            count = count + parent[row, col]
 
     if (count == -15):
         return True
@@ -71,7 +71,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
         candidate_index += 1
 
     result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
-    print('vetor de avaliações: ',evaluations_array)
+    #print('vetor de avaliações: ',evaluations_array)
 
     bests_candidates_indexes = result[0]
     print('posições das melhores avaliações: ', bests_candidates_indexes)
@@ -83,7 +83,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
     print('dos melhores, este foi o escolhido:')
     print('  a nota dele é: ', evaluations_array[best_candidate_chosen_index])
     print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
-    print(candidates[best_candidate_chosen_index])
+    #print(candidates[best_candidate_chosen_index])
     return best_candidate_chosen_index
 
 """
@@ -156,16 +156,16 @@ def searchPossibleMovements(state):
 """
 DESCRIÇÃO: Este método analisa um estado (pai) e gera estados filhos a partir dele.
 """
-def gerarFilhos(father):
+def gerarFilhos(parent):
     list_of_sons = []
 
-    movements_list = searchPossibleMovements(father)
+    movements_list = searchPossibleMovements(parent)
 
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
         for mvmt in row:  # 'mvmt' corresponde à lista das 3 coordenadas das peças que estarão sendo movimentadas/alteradas
-            father_copy = father.copy()
-            son = move(father_copy, mvmt)  # Realizando movimento
+            parent_copy = parent.copy()
+            son = move(parent_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
     # count = 1
@@ -204,14 +204,14 @@ def aEstrela(estado):
         #     print('\n')
         # print('____________________________________--')
 
-        fatherIndex = verificaIndiceDoMelhorCandidato(candidates)
-        father = candidates[fatherIndex]
+        parentIndex = verificaIndiceDoMelhorCandidato(candidates)
+        parent = candidates[parentIndex]
 
         print('\n')
         print('Melhor candidato:')
-        print(father)
+        print(parent)
 
-        if(isFinalState(father)):
+        if(isFinalState(parent)):
             print('Sucesso! Solução encontrada!')
             break
         else:
@@ -219,10 +219,10 @@ def aEstrela(estado):
 
 
 
-        list_of_sons = gerarFilhos(father)  # Gerando os filhos do pai atual
+        list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
 
-        visited.append(father)
-        candidates.pop(fatherIndex)
+        visited.append(parent)
+        candidates.pop(parentIndex)
 
         for son in list_of_sons:
             candidates.append(son)
@@ -230,7 +230,6 @@ def aEstrela(estado):
         total_de_interacoes += 1
         print('total de interações: ', total_de_interacoes)
 
-    print('Solução não encontrada :( ')
 
 
 """
