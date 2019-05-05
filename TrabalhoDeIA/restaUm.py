@@ -74,15 +74,15 @@ def verificaIndiceDoMelhorCandidato(candidates):
     #print('vetor de avaliações: ',evaluations_array)
 
     bests_candidates_indexes = result[0]
-    print('posições das melhores avaliações: ', bests_candidates_indexes)
+    #print('posições das melhores avaliações: ', bests_candidates_indexes)
 
     random_index = randint(0, (len(bests_candidates_indexes)-1))
-    print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
+    #print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
 
     best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
     print('dos melhores, este foi o escolhido:')
     print('  a nota dele é: ', evaluations_array[best_candidate_chosen_index])
-    print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
+    #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
     #print(candidates[best_candidate_chosen_index])
     return best_candidate_chosen_index
 
