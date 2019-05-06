@@ -11,6 +11,28 @@ __author__ = "Matheus Lima Machado [RGA: 201519060068]"
 
 import numpy
 from random import randint
+import winsound
+import time
+
+"""
+DESCRIÇÃO: 
+"""
+def evaluate(coordinates_array):
+    eval = 0
+    #para cada coordenada
+    for index in range(0, len(coordinates_array)):
+        aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
+        target = aux_array.pop(index)
+        manhattan_sum = 0
+        for another_coordinate in aux_array:
+            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
+            manhattan_sum += manhattan
+        eval += manhattan_sum
+
+    total_of_pegs = len(coordinates_array)
+    final_eval = eval/total_of_pegs
+
+    return final_eval
 
 
 """
@@ -37,38 +59,25 @@ def isFinalState(parent):
         return False
 
 """
-DESCRIÇÃO: o método abaixo avalia cada candidato (se existir mais de 1 candidato), e gera um array com avaliações desses candidatos.
-Depois calcula a melhor avaliação (menor número) e retorna o índice do candidato que possui a melhor avaliação. 
+DESCRIÇÃO: 
 """
 def verificaIndiceDoMelhorCandidato(candidates):
-    if(len(candidates) == 1):
-        print('vetor de avaliações: [88]')
-        return 0
 
-    #MATRIZ COM OS PESOS DE CADA POSIÇÃO UTILIZANDO A DISTÂNCIA DE MANHATTAN...
-    #...(EM RELAÇÃO AO CENTRO DO TABULEIRO) COMO CRITÉRIO.
-    matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
-                                     [100, 100,   3,   2,   3, 100, 100],
-                                     [   4,  3,   2,   1,   2,   3,   4],
-                                     [   3,  2,   1,   0,   1,   2,   3],
-                                     [   4,  3,   2,   1,   2,   3,   4],
-                                     [100, 100,   3,   2,   3, 100, 100],
-                                     [100, 100,   4,   3,   4, 100, 100]])
+    coordinates_array = []
+    evaluations_array = []
 
-    #COMPARA A MATRIZ MANHATTAN COM CADA FILHO
-    evaluations_array = numpy.arange(len(candidates))
-    eval = 0
-    candidate_index = 0
+    #aqui to identidicando as peças e armazenando suas coordenadas
     for candidate in candidates:
+        #candidate = numpy.array(candidate) #transforma pra array
         for row in range(0, len(candidate)):
             for col in range(0, len(candidate[0])):
-                #se for igual a 1, eu somo o valor da posicao equivalente (na matriz de manhattan) ao meu contador de FA
                 if(candidate[row, col] == 1):
-                    eval += matriz_manhattan[row, col]
+                    coordinate = (row, col)
+                    coordinates_array.append(coordinate)
 
-        evaluations_array[candidate_index] = eval
-        eval = 0
-        candidate_index += 1
+        eval = evaluate(coordinates_array)
+        evaluations_array.append(eval)
+
 
     result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
     #print('vetor de avaliações: ',evaluations_array)
@@ -81,6 +90,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
     print('dos melhores, este foi o escolhido:')
+
     print('  a nota dele é: ', evaluations_array[best_candidate_chosen_index])
     #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
     #print(candidates[best_candidate_chosen_index])
@@ -212,9 +222,12 @@ def aEstrela(estado):
         print(parent)
 
         if(isFinalState(parent)):
+            winsound.Beep(440, 4000)
             print('Sucesso! Solução encontrada!')
             break
         else:
+            winsound.Beep(440, 250)
+            time.sleep(0.15)
             print('Essa ainda não é a solução...')
 
 
@@ -244,13 +257,24 @@ def limparPosicoesVazias(tabuleiro_inicial):
 DESCRIÇÃO: Este método é responsável por executar o programa.
 """
 if __name__ == '__main__':
-    estado_inicial_recebido = numpy.matrix([[0, 0, 1, 1, 1, 0, 0],
-                                            [0, 0, 1, 1, 1, 0, 0],
-                                            [1, 1, 1, 1, 1, 1, 1],
-                                            [1, 1, 1, 0, 1, 1, 1],
-                                            [1, 1, 1, 1, 1, 1, 1],
-                                            [0, 0, 1, 1, 1, 0, 0],
-                                            [0, 0, 1, 1, 1, 0, 0]])
 
-    estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    aEstrela(estado_inicial_tratado)
+    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [1, 1, 1, 0, 1, 1, 1],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0]])
+
+    estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+                                            [-1, -1, 0, 1, 0, -1, -1],
+                                            [ 0,  0, 1, 1, 1,  0,  0],
+                                            [ 0,  0, 0, 1, 0,  0,  0],
+                                            [ 0,  0, 0, 1, 0,  0,  0],
+                                            [-1, -1, 0, 0, 0, -1, -1],
+                                            [-1, -1, 0, 0, 0, -1, -1]])
+
+    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    # aEstrela(estado_inicial_tratado)
+
+    aEstrela(estado_inicial_recebido)
