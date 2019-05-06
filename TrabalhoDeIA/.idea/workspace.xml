@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16dfc84-e420-4d8b-bc0d-134ff95e8452" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/TrabalhoDeIA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TrabalhoDeIA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaUm.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaUm.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,34 +18,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
-              <caret line="338" column="43" selection-start-line="338" selection-start-column="43" selection-end-line="338" selection-end-column="43" />
-              <caret line="339" column="43" selection-start-line="339" selection-start-column="43" selection-end-line="339" selection-end-column="43" />
-              <caret line="340" column="43" selection-start-line="340" selection-start-column="43" selection-end-line="340" selection-end-column="43" />
-              <caret line="341" column="43" selection-start-line="341" selection-start-column="43" selection-end-line="341" selection-end-column="43" />
-              <caret line="342" column="43" selection-start-line="342" selection-start-column="43" selection-end-line="342" selection-end-column="43" />
+            <state relative-caret-position="165">
+              <caret line="88" column="12" selection-start-line="88" selection-start-column="12" selection-end-line="88" selection-end-column="12" />
               <folding>
                 <element signature="e#295#307#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/matrixlib/defmatrix.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="169" selection-start-line="169" selection-end-line="169" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="332" selection-start-line="332" selection-end-line="332" />
             </state>
           </provider>
         </entry>
@@ -74,6 +54,7 @@
       <find>father</find>
       <find>no tabuleiro:  3</find>
       <find>total</find>
+      <find>melhores</find>
     </findStrings>
     <replaceStrings>
       <replace>9</replace>
@@ -95,9 +76,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="951" />
-    <option name="width" value="977" />
-    <option name="height" value="1035" />
+    <option name="x" value="10" />
+    <option name="y" value="47" />
+    <option name="width" value="1346" />
+    <option name="height" value="656" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -120,7 +102,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../T1IA" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -143,7 +125,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\mathe\PycharmProjects\TrabalhoDeIA\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../../TesteRestaUm/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -220,15 +202,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1431" height="772" extended-state="6" />
+    <frame x="-1" y="0" width="1368" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1405018" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24460967" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4024961" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.38474026" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2574103" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -251,51 +233,13 @@
     <MESSAGE value="dictionarys!" />
     <option name="LAST_COMMIT_MESSAGE" value="dictionarys!" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>347</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>131</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>253</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="332" selection-start-line="332" selection-end-line="332" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/matrixlib/defmatrix.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py" />
+    <entry file="file://$PROJECT_DIR$/../../TrabalhoDeIA/venv/Lib/site-packages/numpy/matrixlib/defmatrix.py" />
     <entry file="file://$PROJECT_DIR$/restaUm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
-          <caret line="338" column="43" selection-start-line="338" selection-start-column="43" selection-end-line="338" selection-end-column="43" />
-          <caret line="339" column="43" selection-start-line="339" selection-start-column="43" selection-end-line="339" selection-end-column="43" />
-          <caret line="340" column="43" selection-start-line="340" selection-start-column="43" selection-end-line="340" selection-end-column="43" />
-          <caret line="341" column="43" selection-start-line="341" selection-start-column="43" selection-end-line="341" selection-end-column="43" />
-          <caret line="342" column="43" selection-start-line="342" selection-start-column="43" selection-end-line="342" selection-end-column="43" />
+        <state relative-caret-position="165">
+          <caret line="88" column="12" selection-start-line="88" selection-start-column="12" selection-end-line="88" selection-end-column="12" />
           <folding>
             <element signature="e#295#307#0" expanded="true" />
           </folding>
