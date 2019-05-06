@@ -254,27 +254,89 @@ def limparPosicoesVazias(tabuleiro_inicial):
     return tabuleiro_inicial
 
 """
+DESCRIÇÃO: 
+"""
+def generateDictionaryEvaluations():
+
+    array = []
+
+    for index in range(0, 7):
+        array.append(numpy.zeros(7))
+
+    array = numpy.array(array)
+
+    print (array)
+
+    dictionary = {'(0,0)': []}
+
+    for row in range(0, len(array)):
+        for col in range(0, len(array[0])):
+            dictionary['('+str(row)+','+str(col)+')'] = 0
+
+    externDictionary = dictionary.copy()
+
+
+    for row in range(0, len(array)):
+        for col in range(0, len(array[0])):
+            externDictionary['(' + str(row) + ',' + str(col) + ')'] = dictionary.copy()
+
+
+    # for row in range(0, len(array)):
+    #     for col in range(0, len(array[0])):
+    #         print ('(', str(row), ',', str(col), ') : ', externDictionary['(' + str(row) + ',' + str(col) + ')'])
+
+
+    for rowEx in range(0, len(array)):
+        for colEx in range(0, len(array[0])):
+            for rowIn in range(0, len(array)):
+                for colIn in range(0, len(array[0])):
+                    intern = externDictionary['(' + str(rowEx) + ',' + str(colEx) + ')']
+                    intern['(' + str(rowIn) + ',' + str(colIn) + ')'] = abs(rowEx - rowIn) + abs(colEx - colIn)  #|X1-X2| + |Y1-Y2|
+
+    for row in range(0, len(array)):
+        for col in range(0, len(array[0])):
+            print ('(', str(row), ',', str(col), ') : ', externDictionary['(' + str(row) + ',' + str(col) + ')'])
+
+    return externDictionary
+    # eval = 0
+    # #para cada coordenada
+    # for index in range(0, len(coordinates_array)):
+    #     aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
+    #     target = aux_array.pop(index)
+    #     manhattan_sum = 0
+    #     for another_coordinate in aux_array:
+    #         manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
+    #         manhattan_sum += manhattan
+    #     eval += manhattan_sum
+
+    # total_of_pegs = len(coordinates_array)
+    # final_eval = eval/total_of_pegs
+    #
+    # return final_eval
+"""
 DESCRIÇÃO: Este método é responsável por executar o programa.
 """
 if __name__ == '__main__':
 
-    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-    #                                        [0, 0, 1, 1, 1, 0, 0],
-    #                                        [1, 1, 1, 1, 1, 1, 1],
-    #                                        [1, 1, 1, 0, 1, 1, 1],
-    #                                        [1, 1, 1, 1, 1, 1, 1],
-    #                                        [0, 0, 1, 1, 1, 0, 0],
-    #                                        [0, 0, 1, 1, 1, 0, 0]])
-
-    estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-                                            [-1, -1, 0, 1, 0, -1, -1],
-                                            [ 0,  0, 1, 1, 1,  0,  0],
-                                            [ 0,  0, 0, 1, 0,  0,  0],
-                                            [ 0,  0, 0, 1, 0,  0,  0],
-                                            [-1, -1, 0, 0, 0, -1, -1],
-                                            [-1, -1, 0, 0, 0, -1, -1]])
-
-    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    # aEstrela(estado_inicial_tratado)
-
-    aEstrela(estado_inicial_recebido)
+    dictionary = generateDictionaryEvaluations()
+    #
+    # # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    # #                                        [0, 0, 1, 1, 1, 0, 0],
+    # #                                        [1, 1, 1, 1, 1, 1, 1],
+    # #                                        [1, 1, 1, 0, 1, 1, 1],
+    # #                                        [1, 1, 1, 1, 1, 1, 1],
+    # #                                        [0, 0, 1, 1, 1, 0, 0],
+    # #                                        [0, 0, 1, 1, 1, 0, 0]])
+    #
+    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                         [-1, -1, 0, 1, 0, -1, -1],
+    #                                         [ 0,  0, 1, 1, 1,  0,  0],
+    #                                         [ 0,  0, 0, 1, 0,  0,  0],
+    #                                         [ 0,  0, 0, 1, 0,  0,  0],
+    #                                         [-1, -1, 0, 0, 0, -1, -1],
+    #                                         [-1, -1, 0, 0, 0, -1, -1]])
+    #
+    # # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    # # aEstrela(estado_inicial_tratado)
+    #
+    # aEstrela(estado_inicial_recebido)
