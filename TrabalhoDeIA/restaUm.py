@@ -18,15 +18,18 @@ import time
 DESCRIÇÃO: 
 """
 def evaluate(coordinates_array):
+
+    global globalDictionary
     eval = 0
     #para cada coordenada
-    for index in range(0, len(coordinates_array)):
+    count = 0
+    for target in coordinates_array:
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
-        target = aux_array.pop(index)
         manhattan_sum = 0
         for another_coordinate in aux_array:
-            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
+            manhattan = globalDictionary['('+str(target[0])+','+str(target[1])+')']['('+str(another_coordinate[0])+','+str(another_coordinate[1])+')']
             manhattan_sum += manhattan
+            count += 1
         eval += manhattan_sum
 
     total_of_pegs = len(coordinates_array)
@@ -227,7 +230,6 @@ def aEstrela(estado):
             break
         else:
             winsound.Beep(440, 250)
-            time.sleep(0.15)
             print('Essa ainda não é a solução...')
 
 
@@ -256,6 +258,8 @@ def limparPosicoesVazias(tabuleiro_inicial):
 """
 DESCRIÇÃO: 
 """
+globalDictionary = {('0,0'): 0}
+
 def generateDictionaryEvaluations():
 
     array = []
@@ -297,7 +301,9 @@ def generateDictionaryEvaluations():
         for col in range(0, len(array[0])):
             print ('(', str(row), ',', str(col), ') : ', externDictionary['(' + str(row) + ',' + str(col) + ')'])
 
-    return externDictionary
+    global globalDictionary
+    globalDictionary = externDictionary
+
     # eval = 0
     # #para cada coordenada
     # for index in range(0, len(coordinates_array)):
@@ -318,25 +324,25 @@ DESCRIÇÃO: Este método é responsável por executar o programa.
 """
 if __name__ == '__main__':
 
-    dictionary = generateDictionaryEvaluations()
+    generateDictionaryEvaluations()
     #
-    # # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-    # #                                        [0, 0, 1, 1, 1, 0, 0],
-    # #                                        [1, 1, 1, 1, 1, 1, 1],
-    # #                                        [1, 1, 1, 0, 1, 1, 1],
-    # #                                        [1, 1, 1, 1, 1, 1, 1],
-    # #                                        [0, 0, 1, 1, 1, 0, 0],
-    # #                                        [0, 0, 1, 1, 1, 0, 0]])
+    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [1, 1, 1, 0, 1, 1, 1],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0]])
+    # #
+    estado_inicial_recebido = numpy.array([[-1, -1, 1, 1, 1, -1, -1],
+                                           [-1, -1, 1, 1, 1, -1, -1],
+                                           [ 0,  0, 1, 1, 1,  0,  0],
+                                           [ 0,  0, 1, 0, 1,  0,  0],
+                                           [ 0,  0, 0, 0, 0,  0,  0],
+                                           [-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 0, 0, -1, -1]])
     #
-    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-    #                                         [-1, -1, 0, 1, 0, -1, -1],
-    #                                         [ 0,  0, 1, 1, 1,  0,  0],
-    #                                         [ 0,  0, 0, 1, 0,  0,  0],
-    #                                         [ 0,  0, 0, 1, 0,  0,  0],
-    #                                         [-1, -1, 0, 0, 0, -1, -1],
-    #                                         [-1, -1, 0, 0, 0, -1, -1]])
+    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    # aEstrela(estado_inicial_tratado)
     #
-    # # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    # # aEstrela(estado_inicial_tratado)
-    #
-    # aEstrela(estado_inicial_recebido)
+    aEstrela(estado_inicial_recebido)

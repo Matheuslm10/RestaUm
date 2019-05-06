@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16dfc84-e420-4d8b-bc0d-134ff95e8452" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaUm.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaUm.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +15,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="287" lean-forward="true" selection-start-line="287" selection-end-line="287" />
+            <state relative-caret-position="197">
+              <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
+              <caret line="338" column="43" selection-start-line="338" selection-start-column="43" selection-end-line="338" selection-end-column="43" />
+              <caret line="339" column="43" selection-start-line="339" selection-start-column="43" selection-end-line="339" selection-end-column="43" />
+              <caret line="340" column="43" selection-start-line="340" selection-start-column="43" selection-end-line="340" selection-end-column="43" />
+              <caret line="341" column="43" selection-start-line="341" selection-start-column="43" selection-end-line="341" selection-end-column="43" />
+              <caret line="342" column="43" selection-start-line="342" selection-start-column="43" selection-end-line="342" selection-end-column="43" />
               <folding>
                 <element signature="e#295#307#0" expanded="true" />
               </folding>
@@ -205,18 +209,26 @@
       <option name="project" value="LOCAL" />
       <updated>1557103480113</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="dictionarys!">
+      <created>1557105622120</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1557105622120</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1431" height="772" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31469533" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1405018" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.18096724" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4024961" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2574103" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -236,24 +248,25 @@
     <MESSAGE value="ainda ta sofrendo da Maldição dos Solitários" />
     <MESSAGE value="atualizei os RGA's dos autores do script e mudei o nome Father pra Parent" />
     <MESSAGE value="implementei a heuristica1, funciona rapidão pra cruz" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementei a heuristica1, funciona rapidão pra cruz" />
+    <MESSAGE value="dictionarys!" />
+    <option name="LAST_COMMIT_MESSAGE" value="dictionarys!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>341</line>
+          <line>347</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>128</line>
+          <line>131</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/restaUm.py</url>
-          <line>251</line>
+          <line>253</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
@@ -276,8 +289,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/restaUm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="287" lean-forward="true" selection-start-line="287" selection-end-line="287" />
+        <state relative-caret-position="197">
+          <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
+          <caret line="338" column="43" selection-start-line="338" selection-start-column="43" selection-end-line="338" selection-end-column="43" />
+          <caret line="339" column="43" selection-start-line="339" selection-start-column="43" selection-end-line="339" selection-end-column="43" />
+          <caret line="340" column="43" selection-start-line="340" selection-start-column="43" selection-end-line="340" selection-end-column="43" />
+          <caret line="341" column="43" selection-start-line="341" selection-start-column="43" selection-end-line="341" selection-end-column="43" />
+          <caret line="342" column="43" selection-start-line="342" selection-start-column="43" selection-end-line="342" selection-end-column="43" />
           <folding>
             <element signature="e#295#307#0" expanded="true" />
           </folding>
