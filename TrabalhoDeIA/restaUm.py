@@ -353,27 +353,27 @@ if __name__ == '__main__':
     start = time.time()
     # generateDictionaryEvaluations()
     #
-    estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-                                           [0, 0, 1, 1, 1, 0, 0],
-                                           [1, 1, 1, 1, 1, 1, 1],
-                                           [1, 1, 1, 0, 1, 1, 1],
-                                           [1, 1, 1, 1, 1, 1, 1],
-                                           [0, 0, 1, 1, 1, 0, 0],
-                                           [0, 0, 1, 1, 1, 0, 0]])
-
-    estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    aEstrela(estado_inicial_tratado)
-
-    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 1, 0, -1, -1],
-    #                                        [ 0,  0, 1, 1, 1,  0,  0],
-    #                                        [ 0,  1, 1, 1, 1,  1,  0],
-    #                                        [ 1,  1, 1, 1, 1,  1,  1],
-    #                                        [-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 0, 0, -1, -1]])
+    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [1, 1, 1, 0, 1, 1, 1],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0]])
     #
-    #
-    # aEstrela(estado_inicial_recebido)
+    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    # aEstrela(estado_inicial_tratado)
+
+    estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 1, 0, -1, -1],
+                                           [ 0,  0, 1, 1, 1,  0,  0],
+                                           [ 0,  1, 1, 1, 1,  1,  0],
+                                           [ 1,  1, 1, 1, 1,  1,  1],
+                                           [-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 0, 0, -1, -1]])
+
+
+    aEstrela(estado_inicial_recebido)
 
     # estado_inicial_recebido = numpy.array([[-1, -1, 0, 1, 0, -1, -1],
     #                                        [-1, -1, 1, 1, 1, -1, -1],
