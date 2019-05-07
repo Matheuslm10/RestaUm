@@ -16,12 +16,6 @@ import os
 import time
 
 """
-DESCRIÇÃO: retorna uma avaliaçao se já existir um estado equialente ao estado do parâmetro
-"""
-def evaluationIfExists():
-
-
-"""
 DESCRIÇÃO: 
 """
 def evaluate(coordinates_array):
