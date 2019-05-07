@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-# TODO - DESCRIÇÃO DO MOTIVO DE IMPLEMENTAÇÃO DESTE ARQUIVO
+# TODO - DESCRIÇÃO DO MOTIVO DE IMPLEMENTAÇÃO DESTE ARQUIVOX
 """
 
 __author__ = "Aryslene Santos Bitencourt [RGA: 201519060122]"
@@ -12,14 +12,19 @@ __author__ = "Matheus Lima Machado [RGA: 201519060068]"
 import numpy
 from random import randint
 import winsound
+import os
 import time
+
+#VARIÁVEIS GLOBAIS
+idsDictionary = {0:0}
+smallerSoFar = 100
 
 """
 DESCRIÇÃO: 
 """
 def evaluate(coordinates_array):
 
-    global globalDictionary
+    # global globalDictionary
     eval = 0
     #para cada coordenada
     count = 0
@@ -27,7 +32,7 @@ def evaluate(coordinates_array):
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
         manhattan_sum = 0
         for another_coordinate in aux_array:
-            manhattan = globalDictionary['('+str(target[0])+','+str(target[1])+')']['('+str(another_coordinate[0])+','+str(another_coordinate[1])+')']
+            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
             manhattan_sum += manhattan
             count += 1
         eval += manhattan_sum
@@ -44,7 +49,7 @@ Para ser considerado estado final, soma deve dar -15.
 Já que existem 16 espaços que não fazem parte do tabuleiro, e o objetivo é ter somente uma peça no tabuleiro.
 Então: (16*-1)+1 = -15
 """
-smallerSoFar = 100
+
 def isFinalState(parent):
     global smallerSoFar
     count = 0
@@ -59,6 +64,7 @@ def isFinalState(parent):
         if ((count + 16) < smallerSoFar):
             smallerSoFar = count+16
         print('Menor num de peças até agora: ', smallerSoFar)
+
         return False
 
 """
@@ -68,22 +74,34 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     coordinates_array = []
     evaluations_array = []
+    global idsDictionary
 
     #aqui to identidicando as peças e armazenando suas coordenadas
     for candidate in candidates:
-        #candidate = numpy.array(candidate) #transforma pra array
-        for row in range(0, len(candidate)):
-            for col in range(0, len(candidate[0])):
-                if(candidate[row, col] == 1):
-                    coordinate = (row, col)
-                    coordinates_array.append(coordinate)
 
-        eval = evaluate(coordinates_array)
+        id = calculateIdentifier(candidate)
+
+        if id in idsDictionary:
+            eval = idsDictionary[id]#retorna a avaliação que, anteriormente, foi calculada para outro estado equivalente a este passado no parametro
+        else:
+            for row in range(0, len(candidate)):
+                for col in range(0, len(candidate[0])):
+                    if(candidate[row, col] == 1):
+                        coordinate = (row, col)
+                        coordinates_array.append(coordinate)
+
+            eval = evaluate(coordinates_array)
+            if (id not in idsDictionary):
+                idsDictionary[id] = eval
+
         evaluations_array.append(eval)
+
 
 
     result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
     #print('vetor de avaliações: ',evaluations_array)
+    print('Quantidade total de candidatos: ', len(evaluations_array))
+
 
     bests_candidates_indexes = result[0]
     #print('posições das melhores avaliações: ', bests_candidates_indexes)
@@ -92,12 +110,14 @@ def verificaIndiceDoMelhorCandidato(candidates):
     #print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
 
     best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
-    print('dos melhores, este foi o escolhido:')
+    print('Dos melhores, este foi o escolhido:')
 
-    print('  a nota dele é: ', evaluations_array[best_candidate_chosen_index])
+    print('  a nota dele é: ', round(evaluations_array[best_candidate_chosen_index], 2))
     #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
-    #print(candidates[best_candidate_chosen_index])
+    print(candidates[best_candidate_chosen_index])
+
     return best_candidate_chosen_index
+
 
 """
 DESCRIÇÃO: Este método realiza a movimentação das peças de acordo com as análises realizadas.
@@ -170,9 +190,12 @@ def searchPossibleMovements(state):
 DESCRIÇÃO: Este método analisa um estado (pai) e gera estados filhos a partir dele.
 """
 def gerarFilhos(parent):
+    global idsDictionary
     list_of_sons = []
 
     movements_list = searchPossibleMovements(parent)
+
+
 
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
@@ -189,7 +212,11 @@ def gerarFilhos(parent):
     #     count += 1
 
 
-    print('Gerou os filhos!')
+    print('Gerou ',len(list_of_sons),' filhos!')
+
+    if (len(list_of_sons) == 0):
+        print("Estéril!")
+        idsDictionary[calculateIdentifier(parent)] = 100000000000
 
     return list_of_sons
 
@@ -203,6 +230,8 @@ def aEstrela(estado):
     candidates = [estado]
     visited = []
     total_de_interacoes = 0
+    antes = 32
+
 
     while len(candidates) > 0:  # Percorre a lista de candidatos enquanto houver candidatos
 
@@ -220,21 +249,39 @@ def aEstrela(estado):
         parentIndex = verificaIndiceDoMelhorCandidato(candidates)
         parent = candidates[parentIndex]
 
-        print('\n')
-        print('Melhor candidato:')
-        print(parent)
+        # print('\n')
+        # print('Melhor candidato:')
+        # print(parent)
 
         if(isFinalState(parent)):
-            winsound.Beep(440, 4000)
+            end = time.time()
+            print("TEMPO DE EXECUÇÃO: ",end - start)
             print('Sucesso! Solução encontrada!')
+            winsound.Beep(420, 4000)
+            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
             break
         else:
-            winsound.Beep(440, 250)
+            winsound.Beep(420, 200)
+            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % ( 0.1/2, 440))
             print('Essa ainda não é a solução...')
 
-
+        if((total_de_interacoes%10) == 0):
+            if (smallerSoFar >= antes):
+                print("antes: ", antes)
+                print("smallerSoFar: ", smallerSoFar)
+                print("para de graça!")
+                id = calculateIdentifier(parent)
+                idsDictionary[id] += 10000000
+                print("aumentei sua nota para: ", idsDictionary[id])
+            else:
+                print("antes: ", antes)
+                print("smallerSoFar: ", smallerSoFar)
+                antes = smallerSoFar
+                print("segue o baile!")
 
         list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
+        if(len(list_of_sons)==0):
+            print('... por isso, sua nota aumentou para: ', idsDictionary[calculateIdentifier(parent)])
 
         visited.append(parent)
         candidates.pop(parentIndex)
@@ -243,9 +290,53 @@ def aEstrela(estado):
             candidates.append(son)
 
         total_de_interacoes += 1
-        print('total de interações: ', total_de_interacoes)
+        print('Total de interações: ', total_de_interacoes)
+        print("\n")
+
+"""
+DESCRIÇÃO: 
+"""
 
 
+def calculateIdentifier(candidate):
+
+    # aqui eu faço uma logica que se não estiver no grupo de identificadores, tem q chamar um metodo só pra calcular
+    idString = ["","","","","","","",""]
+    id = []
+
+    #percorrer o candidato e gerar o identificador
+
+    oppositRow = len(candidate) - 1
+    for row in range(0, len(candidate)):
+        oppositeCol = len(candidate[0]) - 1
+
+        for col in range(0, len(candidate[0])):
+            #VARREDURA HORIZONTAL
+            idString[0] += str(abs(candidate[row, col]))                #direção: diagonal pra baixo à direita
+            idString[1] += str(abs(candidate[row, oppositeCol]))        #direção: diagonal pra baixo à esquerda
+
+            idString[2] += str(abs(candidate[oppositRow, col]))         #direção: diagonal pra cima à direita
+            idString[3] += str(abs(candidate[oppositRow, oppositeCol])) #direção: diagonal pra cima à esquerda
+
+            #VStringARREDURA VERTICAL
+            idString[4] += str(abs(candidate[col, row]))                #direção: diagonal pra baixo à direita
+            idString[5] += str(abs(candidate[oppositeCol, row]))        #direção: diagonal pra baixo à esquerda
+
+            idString[6] += str(abs(candidate[col, oppositRow]))         #direção: diagonal pra cima à direita
+            idString[7] += str(abs(candidate[oppositeCol, oppositRow])) #direção: diagonal pra cima à esquerda
+
+            oppositeCol = oppositeCol - 1
+        oppositRow = oppositRow - 1
+
+    #para cada string de 0's e 1's, transforme-a para binario e depois adicione, em formato decimal, à lista
+    for string in idString:
+        id.append(int(string, 2))
+
+    identifier = min(id)
+
+    #print("ID: ", identifier)
+
+    return identifier
 
 """
 # TODO - DESCRIÇÃO DO MÉTODO
@@ -256,93 +347,71 @@ def limparPosicoesVazias(tabuleiro_inicial):
     return tabuleiro_inicial
 
 """
-DESCRIÇÃO: 
-"""
-globalDictionary = {('0,0'): 0}
-
-def generateDictionaryEvaluations():
-
-    array = []
-
-    for index in range(0, 7):
-        array.append(numpy.zeros(7))
-
-    array = numpy.array(array)
-
-    print (array)
-
-    dictionary = {'(0,0)': []}
-
-    for row in range(0, len(array)):
-        for col in range(0, len(array[0])):
-            dictionary['('+str(row)+','+str(col)+')'] = 0
-
-    externDictionary = dictionary.copy()
-
-
-    for row in range(0, len(array)):
-        for col in range(0, len(array[0])):
-            externDictionary['(' + str(row) + ',' + str(col) + ')'] = dictionary.copy()
-
-
-    # for row in range(0, len(array)):
-    #     for col in range(0, len(array[0])):
-    #         print ('(', str(row), ',', str(col), ') : ', externDictionary['(' + str(row) + ',' + str(col) + ')'])
-
-
-    for rowEx in range(0, len(array)):
-        for colEx in range(0, len(array[0])):
-            for rowIn in range(0, len(array)):
-                for colIn in range(0, len(array[0])):
-                    intern = externDictionary['(' + str(rowEx) + ',' + str(colEx) + ')']
-                    intern['(' + str(rowIn) + ',' + str(colIn) + ')'] = abs(rowEx - rowIn) + abs(colEx - colIn)  #|X1-X2| + |Y1-Y2|
-
-    for row in range(0, len(array)):
-        for col in range(0, len(array[0])):
-            print ('(', str(row), ',', str(col), ') : ', externDictionary['(' + str(row) + ',' + str(col) + ')'])
-
-    global globalDictionary
-    globalDictionary = externDictionary
-
-    # eval = 0
-    # #para cada coordenada
-    # for index in range(0, len(coordinates_array)):
-    #     aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
-    #     target = aux_array.pop(index)
-    #     manhattan_sum = 0
-    #     for another_coordinate in aux_array:
-    #         manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
-    #         manhattan_sum += manhattan
-    #     eval += manhattan_sum
-
-    # total_of_pegs = len(coordinates_array)
-    # final_eval = eval/total_of_pegs
-    #
-    # return final_eval
-"""
 DESCRIÇÃO: Este método é responsável por executar o programa.
 """
 if __name__ == '__main__':
+    start = time.time()
+    # generateDictionaryEvaluations()
+    #
+    estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+                                           [0, 0, 1, 1, 1, 0, 0],
+                                           [1, 1, 1, 1, 1, 1, 1],
+                                           [1, 1, 1, 0, 1, 1, 1],
+                                           [1, 1, 1, 1, 1, 1, 1],
+                                           [0, 0, 1, 1, 1, 0, 0],
+                                           [0, 0, 1, 1, 1, 0, 0]])
 
-    generateDictionaryEvaluations()
+    estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    aEstrela(estado_inicial_tratado)
+
+    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                        [-1, -1, 0, 1, 0, -1, -1],
+    #                                        [ 0,  0, 1, 1, 1,  0,  0],
+    #                                        [ 0,  1, 1, 1, 1,  1,  0],
+    #                                        [ 1,  1, 1, 1, 1,  1,  1],
+    #                                        [-1, -1, 0, 0, 0, -1, -1],
+    #                                        [-1, -1, 0, 0, 0, -1, -1]])
     #
-    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-    #                                        [0, 0, 1, 1, 1, 0, 0],
-    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #
+    # aEstrela(estado_inicial_recebido)
+
+    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 1, 0, -1, -1],
+    #                                        [-1, -1, 1, 1, 1, -1, -1],
+    #                                        [0, 1, 1, 1, 1, 1, 0],
     #                                        [1, 1, 1, 0, 1, 1, 1],
-    #                                        [1, 1, 1, 1, 1, 1, 1],
-    #                                        [0, 0, 1, 1, 1, 0, 0],
-    #                                        [0, 0, 1, 1, 1, 0, 0]])
-    # #
-    estado_inicial_recebido = numpy.array([[-1, -1, 1, 1, 1, -1, -1],
-                                           [-1, -1, 1, 1, 1, -1, -1],
-                                           [ 0,  0, 1, 1, 1,  0,  0],
-                                           [ 0,  0, 1, 0, 1,  0,  0],
-                                           [ 0,  0, 0, 0, 0,  0,  0],
-                                           [-1, -1, 0, 0, 0, -1, -1],
-                                           [-1, -1, 0, 0, 0, -1, -1]])
+    #                                        [0, 1, 1, 1, 1, 1, 0],
+    #                                        [-1, -1, 1, 1, 1, -1, -1],
+    #                                        [-1, -1, 0, 1, 0, -1, -1]])
     #
-    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    # aEstrela(estado_inicial_tratado)
+    # aEstrela(estado_inicial_recebido)
+
     #
-    aEstrela(estado_inicial_recebido)
+    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                        [-1, -1, 0, 1, 0, -1, -1],
+    #                                        [ 0,  0, 1, 0, 1,  0,  0],
+    #                                        [ 0,  0, 1, 0, 0,  1,  0],
+    #                                        [ 0,  0, 0, 0, 0,  0,  0],
+    #                                        [-1, -1, 0, 1, 0, -1, -1],
+    #                                        [-1, -1, 0, 0, 0, -1, -1]])
+    #
+    # calculateIdentifier(estado_inicial_recebido)
+    #
+    # estado_inicial_recebido2 = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                         [-1, -1, 0, 1, 0, -1, -1],
+    #                                         [ 0,  0, 0, 0, 0,  0,  0],
+    #                                         [ 0,  0, 1, 0, 0,  1,  0],
+    #                                         [ 0,  0, 1, 0, 1,  0,  0],
+    #                                         [-1, -1, 0, 1, 0, -1, -1],
+    #                                         [-1, -1, 0, 0, 0, -1, -1]])
+    #
+    # calculateIdentifier(estado_inicial_recebido2)
+    #
+    # estado_inicial_recebido3 = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                         [-1, -1, 0, 1, 0, -1, -1],
+    #                                         [ 0,  0, 0, 0, 1,  0,  0],
+    #                                         [ 0,  1, 0, 0, 0,  1,  0],
+    #                                         [ 0,  0, 0, 1, 1,  0,  0],
+    #                                         [-1, -1, 0, 0, 0, -1, -1],
+    #                                         [-1, -1, 0, 0, 0, -1, -1]])
+    #
+    # calculateIdentifier(estado_inicial_recebido3) olar
