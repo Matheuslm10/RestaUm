@@ -11,7 +11,7 @@ __author__ = "Matheus Lima Machado [RGA: 201519060068]"
 
 import numpy
 from random import randint
-import winsound
+#import winsound
 import os
 import time
 
@@ -258,12 +258,12 @@ def aEstrela(estado):
             end = time.time()
             print("TEMPO DE EXECUÇÃO: ",end - start)
             print('Sucesso! Solução encontrada!')
-            winsound.Beep(420, 4000)
-            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
+            #winsound.Beep(420, 4000)
+            for x in range(0,3):
+                os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 440))
+            os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
             break
         else:
-            #winsound.Beep(420, 200)
-            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % ( 0.1/2, 440))
             print('Essa ainda não é a solução...')
 
         if (total_de_interacoes != 0):
@@ -274,6 +274,7 @@ def aEstrela(estado):
                 id = calculateIdentifier(parent)
                 idsDictionary[id] = 2147483647
                 print("aumentei sua nota para: ", idsDictionary[id])
+
             else:
                 print("antes: ", antes)
                 print("smallerSoFar: ", smallerSoFar)
@@ -284,24 +285,32 @@ def aEstrela(estado):
         if((total_de_interacoes%31) == 0 and total_de_interacoes!=0):
             print("Nível limite atingido! Reiniciando o A*!")
             print("\n")
-            aEstrela(estado)
+            candidates = [estado]
+            visited = []
+            total_de_interacoes = 0
+            antes = 32
+            solutionNotFound = True
 
-        list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
-        if(len(list_of_sons)==0):
-            print('Filho estéril encontrado! Reiniciando o A*!')
-            print("\n")
-            aEstrela(estado)
-            break
+        else:
+            list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
+            if(len(list_of_sons)==0):
+                print('Filho estéril encontrado! Reiniciando o A*!')
+                print("\n")
+                candidates = [estado]
+                visited = []
+                total_de_interacoes = 0
+                antes = 32
+                solutionNotFound = True
+            else:
+                visited.append(parent)
+                candidates.pop(parentIndex)
 
-        visited.append(parent)
-        candidates.pop(parentIndex)
+                for son in list_of_sons:
+                    candidates.append(son)
 
-        for son in list_of_sons:
-            candidates.append(son)
-
-        total_de_interacoes += 1
-        print('Total de interações: ', total_de_interacoes)
-        print("\n")
+                total_de_interacoes += 1
+                print('Total de interações: ', total_de_interacoes)
+                print("\n")
 
 """
 DESCRIÇÃO: 
