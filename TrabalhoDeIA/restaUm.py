@@ -114,7 +114,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     print('  a nota dele é: ', round(evaluations_array[best_candidate_chosen_index], 2))
     #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
-    print(candidates[best_candidate_chosen_index])
+    #print(candidates[best_candidate_chosen_index])
 
     return best_candidate_chosen_index
 
@@ -234,7 +234,7 @@ def aEstrela(estado):
 
     while solutionNotFound:  # Percorre a lista de candidatos enquanto houver candidatos
         print("tamanho do dicionário: ", len(idsDictionary))
-        print(idsDictionary)
+        #print(idsDictionary)
         # print('------------------------------------__')
         # print('Candidatos: ')
         # for son in candidates:
