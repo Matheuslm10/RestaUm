@@ -60,10 +60,10 @@ def isFinalState(parent):
     if (count == -15):
         return True
     else:
-        print('Número de peças no tabuleiro: ', count+16)
+        print('A quantidade de peças no tabuleiro é: ', count+16)
         if ((count + 16) < smallerSoFar):
             smallerSoFar = count+16
-        print('Menor num de peças até agora: ', smallerSoFar)
+        print('O menor número de peças até agora é: ', smallerSoFar)
 
         return False
 
@@ -100,7 +100,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
     #print('vetor de avaliações: ',evaluations_array)
-    print('Quantidade total de candidatos: ', len(evaluations_array))
+    print('A quantidade total de candidatos é: ', len(evaluations_array))
 
 
     bests_candidates_indexes = result[0]
@@ -110,9 +110,8 @@ def verificaIndiceDoMelhorCandidato(candidates):
     #print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
 
     best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
-    print('Dos melhores, este foi o escolhido:')
 
-    print('  a nota dele é: ', round(evaluations_array[best_candidate_chosen_index], 2))
+    print('A nota do melhor candidato é: ', round(evaluations_array[best_candidate_chosen_index], 2))
     #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
     #print(candidates[best_candidate_chosen_index])
 
@@ -212,7 +211,7 @@ def gerarFilhos(parent):
     #     count += 1
 
 
-    print('Gerou ',len(list_of_sons),' filhos!')
+    print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
     if (len(list_of_sons) == 0):
         idsDictionary[calculateIdentifier(parent)] = 2147483647
@@ -227,13 +226,15 @@ def aEstrela(estado):
 
     candidates = [estado]
     visited = []
-    total_de_interacoes = 0
+    total_de_iteracoes = 0
     antes = 32
     solutionNotFound = True
+    attempts = 0
 
 
     while solutionNotFound:  # Percorre a lista de candidatos enquanto houver candidatos
-        print("tamanho do dicionário: ", len(idsDictionary))
+        attempts += 1
+        print("Já conheço ", len(idsDictionary), " estados equivalentes")
         #print(idsDictionary)
         # print('------------------------------------__')
         # print('Candidatos: ')
@@ -256,8 +257,8 @@ def aEstrela(estado):
         if(isFinalState(parent)):
             solutionNotFound = False
             end = time.time()
-            print("TEMPO DE EXECUÇÃO: ",end - start)
-            print('Sucesso! Solução encontrada!')
+            print("TEMPO DE EXECUÇÃO: ",round(end - start, 3), "segundos")
+            print('Sucesso! Encontrei a solução!')
             #winsound.Beep(420, 4000)
             for x in range(0,3):
                 os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 440))
@@ -266,39 +267,40 @@ def aEstrela(estado):
         else:
             print('Essa ainda não é a solução...')
 
-        if (total_de_interacoes != 0):
+        if (total_de_iteracoes != 0):
             if (smallerSoFar >= antes):
-                print("antes: ", antes)
-                print("smallerSoFar: ", smallerSoFar)
-                print("para de graça!")
+                #print("antes: ", antes)
+                #print("smallerSoFar: ", smallerSoFar)
+                print("Acredito que a solução não seja por este caminho...")
                 id = calculateIdentifier(parent)
                 idsDictionary[id] = 2147483647
-                print("aumentei sua nota para: ", idsDictionary[id])
 
             else:
-                print("antes: ", antes)
-                print("smallerSoFar: ", smallerSoFar)
+                #print("antes: ", antes)
+                #print("smallerSoFar: ", smallerSoFar)
                 antes = smallerSoFar
-                print("segue o baile!")
+                print("Acredito que estou no caminho certo!")
 
 
-        if((total_de_interacoes%31) == 0 and total_de_interacoes!=0):
-            print("Nível limite atingido! Reiniciando o A*!")
+        if((total_de_iteracoes%31) == 0 and total_de_iteracoes!=0):
+            print("Atingi o nível limite e não encontrei a solução! Vou tentar novamente!")
+            print('Já realizei ', attempts, ' tentativas.')
             print("\n")
             candidates = [estado]
             visited = []
-            total_de_interacoes = 0
+            total_de_iteracoes = 0
             antes = 32
             solutionNotFound = True
 
         else:
             list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
             if(len(list_of_sons)==0):
-                print('Filho estéril encontrado! Reiniciando o A*!')
+                print('Encontrei um filho estéril! Vou tentar novamente!')
+                print('Já realizei ', attempts, ' tentativas.')
                 print("\n")
                 candidates = [estado]
                 visited = []
-                total_de_interacoes = 0
+                total_de_iteracoes = 0
                 antes = 32
                 solutionNotFound = True
             else:
@@ -308,8 +310,10 @@ def aEstrela(estado):
                 for son in list_of_sons:
                     candidates.append(son)
 
-                total_de_interacoes += 1
-                print('Total de interações: ', total_de_interacoes)
+                total_de_iteracoes += 1
+                print('Estou na ', total_de_iteracoes, '° iteração.')
+
+                print('Já realizei ', attempts, ' tentativas.')
                 print("\n")
 
 """
@@ -372,16 +376,16 @@ if __name__ == '__main__':
     #
 
     #DIFICULDADE: SUPERHARD -------------------------------------------------
-    estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-                                           [0, 0, 1, 1, 1, 0, 0],
-                                           [1, 1, 1, 1, 1, 1, 1],
-                                           [1, 1, 1, 0, 1, 1, 1],
-                                           [1, 1, 1, 1, 1, 1, 1],
-                                           [0, 0, 1, 1, 1, 0, 0],
-                                           [0, 0, 1, 1, 1, 0, 0]])
-
-    estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
-    aEstrela(estado_inicial_tratado)
+    # estado_inicial_recebido = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [1, 1, 1, 0, 1, 1, 1],
+    #                                        [1, 1, 1, 1, 1, 1, 1],
+    #                                        [0, 0, 1, 1, 1, 0, 0],
+    #                                        [0, 0, 1, 1, 1, 0, 0]])
+    #
+    # estado_inicial_tratado = limparPosicoesVazias(estado_inicial_recebido)
+    # aEstrela(estado_inicial_tratado)
 
     # DIFICULDADE: DIFÍCIL -------------------------------------------------
     # estado_inicial_recebido = numpy.array([[-1, -1, 0, 1, 0, -1, -1],
@@ -396,16 +400,16 @@ if __name__ == '__main__':
     # aEstrela(estado_inicial_recebido)
 
     # DIFICULDADE: MODERADA  ------------------------------------------------
-    # estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 1, 0, -1, -1],
-    #                                        [ 0,  0, 1, 1, 1,  0,  0],
-    #                                        [ 0,  1, 1, 1, 1,  1,  0],
-    #                                        [ 1,  1, 1, 1, 1,  1,  1],
-    #                                        [-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 0, 0, -1, -1]])
-    #
-    #
-    # aEstrela(estado_inicial_recebido)
+    estado_inicial_recebido = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 1, 0, -1, -1],
+                                           [ 0,  0, 1, 1, 1,  0,  0],
+                                           [ 0,  1, 1, 1, 1,  1,  0],
+                                           [ 1,  1, 1, 1, 1,  1,  1],
+                                           [-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 0, 0, -1, -1]])
+
+
+    aEstrela(estado_inicial_recebido)
 
     # DIFICULDADE: FÁCIL ------------------------------------------------
     # estado_inicial_recebido = numpy.array([[-1, -1, 1, 1, 1, -1, -1],
