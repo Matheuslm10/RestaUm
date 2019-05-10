@@ -20,27 +20,41 @@ import time
 idsDictionary = {}
 smallerSoFar = 100
 
+#MATRIZ COM OS PESOS DE CADA POSIÇÃO UTILIZANDO A DISTÂNCIA DE MANHATTAN...
+#...(EM RELAÇÃO AO CENTRO DO TABULEIRO) COMO CRITÉRIO.
+matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
+                                 [100, 100,   3,   2,   3, 100, 100],
+                                 [   4,  3,   2,   1,   2,   3,   4],
+                                 [   3,  2,   1,   0,   1,   2,   3],
+                                 [   4,  3,   2,   1,   2,   3,   4],
+                                 [100, 100,   3,   2,   3, 100, 100],
+                                 [100, 100,   4,   3,   4, 100, 100]])
+
 """
 DESCRIÇÃO: 
 """
 def evaluate(coordinates_array):
 
+    global matriz_manhattan
     # global globalDictionary
     eval = 0
     #para cada coordenada
-    count = 0
     for target in coordinates_array:
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
         manhattan_sum = 0
+        #manhattan_sum = matriz_manhattan[target[0], target[1]] #distancia em relação ao centro, quanto maior, pior a avaliação
+        #print(matriz_manhattan[target[0], target[1]])
+        #calculando a distancia de manhattan de cada peça em relação às outras no tabuleiro
         for another_coordinate in aux_array:
             manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
             manhattan_sum += manhattan
-            count += 1
+
+        manhattan_sum += matriz_manhattan[target[0], target[1]]
         eval += manhattan_sum
+
 
     total_of_pegs = len(coordinates_array)
     final_eval = eval/total_of_pegs
-
     return final_eval
 
 
@@ -100,7 +114,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
         #evaluations_array.append(eval)
         heapq.heappush(evaluations_array, (eval, index_candidate))
 
-    #print('A quantidade total de candidatos é: ', len(evaluations_array))
+    print('A quantidade total de candidatos é: ', len(evaluations_array))
     # print('São eles: ')
     # for eval in evaluations_array:
     #     print(eval, " | ",end="")
@@ -109,7 +123,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
     #print(evaluations_array)
     best_eval,index_of_best = heapq.heappop(evaluations_array)
 
-    #print('A nota do melhor candidato é: ', round(best_eval, 2))
+    print('A nota do melhor candidato é: ', round(best_eval, 2))
     #print('...e seu índice [no vetor de candidatos gerais] é: ', index_of_best)
     #print(candidates[index_of_best])
 
@@ -199,7 +213,7 @@ def gerarFilhos(parent):
             son = move(parent_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    #print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
+    print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
     # if (len(list_of_sons) == 0):
     #     idsDictionary[calculateIdentifier(parent)] = 2147483647
@@ -225,8 +239,7 @@ def aEstrela(estado):
 
     while solutionNotFound:  # Percorre a lista de candidatos enquanto houver candidatos
 
-        #print("Já conheço ", len(idsDictionary), " estados equivalentes")
-
+        print("Já conheço ", len(idsDictionary), " estados equivalentes")
 
         parentIndex = verificaIndiceDoMelhorCandidato(candidates)
         parent = candidates[parentIndex]
@@ -251,16 +264,16 @@ def aEstrela(estado):
 
         if(len(list_of_sons)!=0):
             visited.append(parent)
-            #print("Já visitei: ",len(visited)," estados")
+            print("Já visitei: ",len(visited)," estados")
             candidates.pop(parentIndex)
             for son in list_of_sons:
                 candidates.append(son)
-            #print("\n")
+            print("\n")
         else:
             visited.append(parent)
-            #print("Já visitei: ", len(visited), " estados")
-            #print("O último visitado era um estéril!")
-            #print("\n")
+            print("Já visitei: ", len(visited), " estados")
+            print("O último visitado era um estéril!")
+            print("\n")
             candidates.pop(parentIndex)
 
 """
