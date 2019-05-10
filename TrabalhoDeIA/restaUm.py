@@ -11,12 +11,13 @@ __author__ = "Matheus Lima Machado [RGA: 201519060068]"
 
 import numpy
 from random import randint
-import winsound
+import heapq
+#import winsound
 import os
 import time
 
 #VARIÁVEIS GLOBAIS
-idsDictionary = {0:0}
+idsDictionary = {}
 smallerSoFar = 100
 
 """
@@ -60,10 +61,10 @@ def isFinalState(parent):
     if (count == -15):
         return True
     else:
-        print('Número de peças no tabuleiro: ', count+16)
+        print('A quantidade de peças no tabuleiro é: ', count+16)
         if ((count + 16) < smallerSoFar):
             smallerSoFar = count+16
-        print('Menor num de peças até agora: ', smallerSoFar)
+        print('O menor número de peças até agora é: ', smallerSoFar)
 
         return False
 
@@ -74,6 +75,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     coordinates_array = []
     evaluations_array = []
+    heapq.heapify(evaluations_array)
     global idsDictionary
 
     #aqui to identidicando as peças e armazenando suas coordenadas
@@ -94,27 +96,28 @@ def verificaIndiceDoMelhorCandidato(candidates):
             if (id not in idsDictionary):
                 idsDictionary[id] = eval
 
-        evaluations_array.append(eval)
+        #evaluations_array.append(eval)
+        heapq.heappush(evaluations_array, eval)
 
+    print('A quantidade total de candidatos é: ', len(evaluations_array))
+    print('São eles: ')
+    for eval in evaluations_array:
+        print(round(eval, 1), " | ",end="")
+    print("")
 
-
-    result = numpy.where(evaluations_array == numpy.amin(evaluations_array)) #verifica qual é a melhor avaliação (menor número)
-    #print('vetor de avaliações: ',evaluations_array)
-    print('Quantidade total de candidatos: ', len(evaluations_array))
-
+    result = numpy.where(evaluations_array == numpy.amin(evaluations_array))  # verifica qual é a melhor avaliação (menor número)
 
     bests_candidates_indexes = result[0]
-    #print('posições das melhores avaliações: ', bests_candidates_indexes)
+    print('posições das melhores avaliações: ', bests_candidates_indexes)
 
     random_index = randint(0, (len(bests_candidates_indexes)-1))
-    #print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
+    print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
 
     best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
-    print('Dos melhores, este foi o escolhido:')
 
-    print('  a nota dele é: ', round(evaluations_array[best_candidate_chosen_index], 2))
-    #print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
-    #print(candidates[best_candidate_chosen_index])
+    print('A nota do melhor candidato é: ', round(evaluations_array[best_candidate_chosen_index], 2))
+    print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
+    print(candidates[best_candidate_chosen_index])
 
     return best_candidate_chosen_index
 
@@ -195,8 +198,6 @@ def gerarFilhos(parent):
 
     movements_list = searchPossibleMovements(parent)
 
-
-
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
         for mvmt in row:  # 'mvmt' corresponde à lista das 3 coordenadas das peças que estarão sendo movimentadas/alteradas
@@ -204,18 +205,15 @@ def gerarFilhos(parent):
             son = move(parent_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    # count = 1
-    # for son in list_of_sons:  # Exibindo cada filho do pai atual
-    #     print('Filho', count)
-    #     print(son)
-    #     print('\n')
-    #     count += 1
+    print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
+    # if (len(list_of_sons) == 0):
+    #     idsDictionary[calculateIdentifier(parent)] = 2147483647
+    #     print('Encontrei um filho estéril! Vou continuar a partir do melhor candidato!')
+    #     print("O estéril está aqui:")
+    #     print(parent)
+    #     print("\n")
 
-    print('Gerou ',len(list_of_sons),' filhos!')
-
-    if (len(list_of_sons) == 0):
-        idsDictionary[calculateIdentifier(parent)] = 2147483647
 
     return list_of_sons
 
@@ -227,81 +225,49 @@ def aEstrela(estado):
 
     candidates = [estado]
     visited = []
-    total_de_interacoes = 0
-    antes = 32
     solutionNotFound = True
 
 
+
     while solutionNotFound:  # Percorre a lista de candidatos enquanto houver candidatos
-        print("tamanho do dicionário: ", len(idsDictionary))
-        #print(idsDictionary)
-        # print('------------------------------------__')
-        # print('Candidatos: ')
-        # for son in candidates:
-        #     print(son)
-        #     print('\n')
-        # print('Visidatos: ')
-        # for son in visited:
-        #     print(son)
-        #     print('\n')
-        # print('____________________________________--')
+
+        print("Já conheço ", len(idsDictionary), " estados equivalentes")
+
 
         parentIndex = verificaIndiceDoMelhorCandidato(candidates)
         parent = candidates[parentIndex]
 
-        # print('\n')
-        # print('Melhor candidato:')
-        # print(parent)
-
         if(isFinalState(parent)):
             solutionNotFound = False
-            end = time.time()
-            print("TEMPO DE EXECUÇÃO: ",end - start)
-            print('Sucesso! Solução encontrada!')
-            winsound.Beep(420, 4000)
-            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
+            theEnd = time.time()
+            print("TEMPO DE EXECUÇÃO: ",round(theEnd - start, 3), "segundos")
+            print('Sucesso! Encontrei a solução!')
+            print("Aqui está:")
+            print(parent)
+            #winsound.Beep(420, 4000)
+            # for x in range(0,3):
+            #     os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 440))
+            # os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
             break
         else:
-            #winsound.Beep(420, 200)
-            #os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % ( 0.1/2, 440))
             print('Essa ainda não é a solução...')
 
-        if (total_de_interacoes != 0):
-            if (smallerSoFar >= antes):
-                print("antes: ", antes)
-                print("smallerSoFar: ", smallerSoFar)
-                print("para de graça!")
-                id = calculateIdentifier(parent)
-                idsDictionary[id] = 2147483647
-                print("aumentei sua nota para: ", idsDictionary[id])
-            else:
-                print("antes: ", antes)
-                print("smallerSoFar: ", smallerSoFar)
-                antes = smallerSoFar
-                print("segue o baile!")
-
-
-        if((total_de_interacoes%31) == 0 and total_de_interacoes!=0):
-            print("Nível limite atingido! Reiniciando o A*!")
-            print("\n")
-            aEstrela(estado)
 
         list_of_sons = gerarFilhos(parent)  # Gerando os filhos do pai atual
-        if(len(list_of_sons)==0):
-            print('Filho estéril encontrado! Reiniciando o A*!')
+
+        if(len(list_of_sons)!=0):
+            visited.append(parent)
+            print("Já visitei: ",len(visited)," estados")
+            candidates.pop(parentIndex)
+            for son in list_of_sons:
+                candidates.append(son)
             print("\n")
-            aEstrela(estado)
-            break
-
-        visited.append(parent)
-        candidates.pop(parentIndex)
-
-        for son in list_of_sons:
-            candidates.append(son)
-
-        total_de_interacoes += 1
-        print('Total de interações: ', total_de_interacoes)
-        print("\n")
+        else:
+            visited.append(parent)
+            print("Já visitei: ", len(visited), " estados")
+            print("O último visitado era um estéril!")
+            print("\n")
+            candidates.pop(parentIndex)
 
 """
 DESCRIÇÃO: 
@@ -406,7 +372,6 @@ if __name__ == '__main__':
     #                                        [ 0,  0, 0, 0, 0,  0,  0],
     #                                        [-1, -1, 0, 0, 0, -1, -1],
     #                                        [-1, -1, 0, 0, 0, -1, -1]])
-    #
     # aEstrela(estado_inicial_recebido)
 
     # DIFICULDADE: SUPEREASY ----------------------------------------------------
@@ -417,6 +382,4 @@ if __name__ == '__main__':
     #                                        [ 0,  0, 0, 1, 0,  0,  0],
     #                                        [-1, -1, 0, 0, 0, -1, -1],
     #                                        [-1, -1, 0, 0, 0, -1, -1]])
-    #
-    #
     # aEstrela(estado_inicial_recebido)
