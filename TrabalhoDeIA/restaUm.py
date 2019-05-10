@@ -79,7 +79,9 @@ def verificaIndiceDoMelhorCandidato(candidates):
     global idsDictionary
 
     #aqui to identidicando as peças e armazenando suas coordenadas
-    for candidate in candidates:
+    for index_candidate in range (0, len(candidates)):
+
+        candidate = candidates[index_candidate]
 
         id = calculateIdentifier(candidate)
 
@@ -93,33 +95,25 @@ def verificaIndiceDoMelhorCandidato(candidates):
                         coordinates_array.append(coordinate)
 
             eval = evaluate(coordinates_array)
-            if (id not in idsDictionary):
-                idsDictionary[id] = eval
+            idsDictionary[id] = eval
 
         #evaluations_array.append(eval)
-        heapq.heappush(evaluations_array, eval)
+        heapq.heappush(evaluations_array, (eval, index_candidate))
 
-    print('A quantidade total de candidatos é: ', len(evaluations_array))
-    print('São eles: ')
-    for eval in evaluations_array:
-        print(round(eval, 1), " | ",end="")
-    print("")
+    #print('A quantidade total de candidatos é: ', len(evaluations_array))
+    # print('São eles: ')
+    # for eval in evaluations_array:
+    #     print(eval, " | ",end="")
+    # print("")
+    #print("qtd no heap: ", len(evaluations_array))
+    #print(evaluations_array)
+    best_eval,index_of_best = heapq.heappop(evaluations_array)
 
-    result = numpy.where(evaluations_array == heapq.pop(evaluations_array))  # verifica qual é a melhor avaliação (menor número)
+    #print('A nota do melhor candidato é: ', round(best_eval, 2))
+    #print('...e seu índice [no vetor de candidatos gerais] é: ', index_of_best)
+    #print(candidates[index_of_best])
 
-    bests_candidates_indexes = result[0]
-    print('posições das melhores avaliações: ', bests_candidates_indexes)
-
-    random_index = randint(0, (len(bests_candidates_indexes)-1))
-    print('posicao aleatoria escolhida [do vetor das posicoes dos melhores candidatos]: ', random_index)
-
-    best_candidate_chosen_index = bests_candidates_indexes[random_index] #caso tenha empate de minimos, vai escolher aleatoriamente
-
-    print('A nota do melhor candidato é: ', round(evaluations_array[best_candidate_chosen_index], 2))
-    print('  e seu índice [no vetor de candidatos gerais] é: ', best_candidate_chosen_index)
-    print(candidates[best_candidate_chosen_index])
-
-    return best_candidate_chosen_index
+    return index_of_best
 
 
 """
@@ -205,7 +199,7 @@ def gerarFilhos(parent):
             son = move(parent_copy, mvmt)  # Realizando movimento
             list_of_sons.append(son)
 
-    print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
+    #print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
     # if (len(list_of_sons) == 0):
     #     idsDictionary[calculateIdentifier(parent)] = 2147483647
@@ -231,7 +225,7 @@ def aEstrela(estado):
 
     while solutionNotFound:  # Percorre a lista de candidatos enquanto houver candidatos
 
-        print("Já conheço ", len(idsDictionary), " estados equivalentes")
+        #print("Já conheço ", len(idsDictionary), " estados equivalentes")
 
 
         parentIndex = verificaIndiceDoMelhorCandidato(candidates)
@@ -257,16 +251,16 @@ def aEstrela(estado):
 
         if(len(list_of_sons)!=0):
             visited.append(parent)
-            print("Já visitei: ",len(visited)," estados")
+            #print("Já visitei: ",len(visited)," estados")
             candidates.pop(parentIndex)
             for son in list_of_sons:
                 candidates.append(son)
-            print("\n")
+            #print("\n")
         else:
             visited.append(parent)
-            print("Já visitei: ", len(visited), " estados")
-            print("O último visitado era um estéril!")
-            print("\n")
+            #print("Já visitei: ", len(visited), " estados")
+            #print("O último visitado era um estéril!")
+            #print("\n")
             candidates.pop(parentIndex)
 
 """
