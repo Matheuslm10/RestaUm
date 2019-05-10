@@ -84,7 +84,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="942" />
     <option name="width" value="986" />
     <option name="height" value="1040" />
@@ -241,7 +241,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557296009592</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Tentativa de implementar fila de prioridade">
+      <created>1557487825060</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1557487825060</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -280,27 +287,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="só deixo calcular até o nível 31" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/restaUm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4208">
-          <caret line="345" lean-forward="true" selection-start-line="345" selection-end-line="345" />
-          <folding>
-            <element signature="e#296#308#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/core/arrayprint.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6935">
           <caret line="365" selection-start-line="365" selection-end-line="365" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/core/fromnumeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47329">
-          <caret line="2504" selection-start-line="2504" selection-end-line="2504" />
         </state>
       </provider>
     </entry>
@@ -311,10 +301,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="2504" selection-start-line="2504" selection-end-line="2504" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6289">
+        <state relative-caret-position="555">
           <caret line="332" selection-start-line="332" selection-end-line="332" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/restaUm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4902">
+          <caret line="384" column="39" selection-start-line="384" selection-start-column="39" selection-end-line="384" selection-end-column="39" />
+          <folding>
+            <element signature="e#478#490#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
