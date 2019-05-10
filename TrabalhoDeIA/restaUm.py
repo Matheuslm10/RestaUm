@@ -105,7 +105,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
         print(round(eval, 1), " | ",end="")
     print("")
 
-    result = numpy.where(evaluations_array == numpy.amin(evaluations_array))  # verifica qual é a melhor avaliação (menor número)
+    result = numpy.where(evaluations_array == heapq.pop(evaluations_array))  # verifica qual é a melhor avaliação (menor número)
 
     bests_candidates_indexes = result[0]
     print('posições das melhores avaliações: ', bests_candidates_indexes)
