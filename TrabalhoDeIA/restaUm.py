@@ -22,13 +22,13 @@ smallerSoFar = 100
 
 #MATRIZ COM OS PESOS DE CADA POSIÇÃO UTILIZANDO A DISTÂNCIA DE MANHATTAN...
 #...(EM RELAÇÃO AO CENTRO DO TABULEIRO) COMO CRITÉRIO.
-matriz_manhattan = numpy.matrix([[100, 100,   4,   3,   4, 100, 100],
-                                 [100, 100,   3,   2,   3, 100, 100],
-                                 [   4,  3,   2,   1,   2,   3,   4],
-                                 [   3,  2,   1,   0,   1,   2,   3],
-                                 [   4,  3,   2,   1,   2,   3,   4],
-                                 [100, 100,   3,   2,   3, 100, 100],
-                                 [100, 100,   4,   3,   4, 100, 100]])
+matriz_manhattan = numpy.matrix([[0000, 0000, 1000, 1000, 1000, 0000, 0000],
+                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000],
+                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
+                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
+                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
+                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000],
+                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000]])
 
 """
 DESCRIÇÃO: 
@@ -53,11 +53,11 @@ def evaluate(coordinates_array):
         manhattan_center += matriz_manhattan[target[0], target[1]]
         eval_manhattan_pegs += manhattan_pegs_sum
 
-    print("sua nota de manhattan_center: ", manhattan_center)
-    print("sua nota de manhattan_pegs: ", eval_manhattan_pegs)
-    eval = manhattan_center + eval_manhattan_pegs
+
     total_of_pegs = len(coordinates_array)
-    final_eval = eval/total_of_pegs
+    final_eval_manhattan_pegs = eval_manhattan_pegs/total_of_pegs
+    final_eval = final_eval_manhattan_pegs + manhattan_center
+
     return final_eval
 
 
@@ -89,7 +89,6 @@ def isFinalState(parent):
 DESCRIÇÃO: 
 """
 def verificaIndiceDoMelhorCandidato(candidates):
-
     coordinates_array = []
     evaluations_array = []
     heapq.heapify(evaluations_array)
@@ -128,7 +127,7 @@ def verificaIndiceDoMelhorCandidato(candidates):
 
     print('A nota do melhor candidato é: ', round(best_eval, 2))
     #print('...e seu índice [no vetor de candidatos gerais] é: ', index_of_best)
-    #print(candidates[index_of_best])
+    print(candidates[index_of_best])
 
     return index_of_best
 
@@ -208,13 +207,16 @@ def gerarFilhos(parent):
     list_of_sons = []
 
     movements_list = searchPossibleMovements(parent)
-
+    previous_id = 0
     # Estruturas de repetição para percorrer a lista de movimentos
     for row in movements_list:
         for mvmt in row:  # 'mvmt' corresponde à lista das 3 coordenadas das peças que estarão sendo movimentadas/alteradas
             parent_copy = parent.copy()
             son = move(parent_copy, mvmt)  # Realizando movimento
-            list_of_sons.append(son)
+            current_id = calculateIdentifier(son)
+            if previous_id != current_id:
+                list_of_sons.append(son)
+                previous_id = current_id
 
     print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
