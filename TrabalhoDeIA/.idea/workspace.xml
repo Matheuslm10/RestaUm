@@ -16,11 +16,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="355" column="65" selection-start-line="355" selection-start-column="65" selection-end-line="355" selection-end-column="65" />
+            <state relative-caret-position="202">
+              <caret line="344" lean-forward="true" selection-start-line="344" selection-end-line="344" />
               <folding>
                 <element signature="e#296#308#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_frame_eval/pydevd_frame_tracing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="70">
+              <caret line="95" selection-start-line="95" selection-end-line="95" />
             </state>
           </provider>
         </entry>
@@ -45,7 +54,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>null</find>
       <find>9</find>
       <find>func_avaliacao</find>
       <find>evaluations_list</find>
@@ -74,6 +82,8 @@
       <find>a quantidade</find>
       <find>estér</find>
       <find>es</find>
+      <find>heap</find>
+      <find>shy</find>
     </findStrings>
     <replaceStrings>
       <replace>9</replace>
@@ -88,7 +98,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="h1otimizado" />
+        <entry key="$PROJECT_DIR$/.." value="h4&amp;h1" />
       </map>
     </option>
   </component>
@@ -100,9 +110,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="924" />
-    <option name="y" value="25" />
-    <option name="width" value="990" />
+    <option name="x" value="923" />
+    <option name="y" value="24" />
+    <option name="width" value="992" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
@@ -110,6 +120,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -121,7 +132,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,19 +310,26 @@
       <option name="project" value="LOCAL" />
       <updated>1557530606221</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="implementado">
+      <created>1557589468745</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1557589468745</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1431" height="772" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28172043" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20788531" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.08268331" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.2574103" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.19656786" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.37285492" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -338,7 +355,22 @@
     <MESSAGE value="..." />
     <MESSAGE value="Implementei a fila de prioridade" />
     <MESSAGE value="comecei" />
-    <option name="LAST_COMMIT_MESSAGE" value="comecei" />
+    <MESSAGE value="implementado" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementado" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>candidate == [[-1, -1,  1,  1,  1, -1, -1],  [-1, -1,  1,  0,  0, -1, -1],  [ 1,  0,  1,  1,  1,  1,  1],  [ 0,  0,  1,  1,  1,  1,  1],  [ 1,  0,  1,  1,  1,  1,  1],  [-1, -1,  0,  1,  1, -1, -1],  [-1, -1,  0,  1,  1, -1, -1]]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>target == 0,2</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/core/arrayprint.py">
@@ -362,20 +394,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/restaUm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="355" column="65" selection-start-line="355" selection-start-column="65" selection-end-line="355" selection-end-column="65" />
-          <folding>
-            <element signature="e#296#308#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/matrixlib/defmatrix.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3686">
           <caret line="194" selection-start-line="194" selection-end-line="194" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_frame_eval/pydevd_frame_tracing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/restaUm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="344" lean-forward="true" selection-start-line="344" selection-end-line="344" />
+          <folding>
+            <element signature="e#296#308#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

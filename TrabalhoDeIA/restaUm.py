@@ -20,43 +20,81 @@ import time
 idsDictionary = {}
 smallerSoFar = 100
 
-#MATRIZ COM OS PESOS DE CADA POSIÇÃO UTILIZANDO A DISTÂNCIA DE MANHATTAN...
-#...(EM RELAÇÃO AO CENTRO DO TABULEIRO) COMO CRITÉRIO.
-matriz_manhattan = numpy.matrix([[0000, 0000, 1000, 1000, 1000, 0000, 0000],
-                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000],
-                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
-                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
-                                 [1000, 1000, 0000, 0000, 0000, 1000, 1000],
-                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000],
-                                 [0000, 0000, 1000, 1000, 1000, 0000, 0000]])
+def isShyPeg(target, candidate):
+    x = target[0]
+    y = target[1]
+    shypeg = False
+
+    if (x, y) == (0, 2) or (x, y) == (2, 0):
+        # verifica lateral direita e baixo
+        if candidate[x, y + 1] == 0 and candidate[x + 1, y] == 0:
+            shypeg = True
+    elif (x, y) == (0, 4) or (x, y) == (2, 6):
+        # verifica lateral esquerda e baixo
+        if candidate[x, y - 1] == 0 and candidate[x + 1, y] == 0:
+            shypeg = True
+    elif (x, y) == (4, 0) or (x, y) == (6, 2):
+        # verifica lateral direita e cima
+        if candidate[x, (y + 1)] == 0 and candidate[(x - 1), y] == 0:
+            shypeg = True
+    elif (x, y) == (4, 6) or (x, y) == (6, 4):
+        # verifica lateral esquerda e cima
+        if candidate[x, y - 1] == 0 and candidate[x - 1, y] == 0:
+            shypeg = True
+
+    elif (x, y) == (0,3):
+        # verifica lateral esquerda e cima
+        if candidate[0,2] == 0 and candidate[1,3] == 0 and candidate[0,4] == 0:
+            shypeg = True
+    elif (x, y) == (3,0):
+        # verifica lateral esquerda e cima
+        if candidate[2,0] == 0 and candidate[3,1] == 0 and candidate[4,0] == 0:
+            shypeg = True
+    elif (x, y) == (3,6):
+        # verifica lateral esquerda e cima
+        if candidate[2,6] == 0 and candidate[3,5] == 0 and candidate[4,6] == 0:
+            shypeg = True
+    elif (x, y) == (6,3):
+        # verifica lateral esquerda e cima
+        if candidate[6,2] == 0 and candidate[5,3] == 0 and candidate[6,4] == 0:
+            shypeg = True
+    # if(shypeg):
+    #     print("shypeg encontrada: ", target)
+    #     print(candidate)
+
+    return shypeg
+
 
 """
 DESCRIÇÃO: 
 """
-def evaluate(coordinates_array):
+def evaluate(candidate):
+    coordinates_array = []
 
-    global matriz_manhattan
+    for row in range(0, len(candidate)):
+        for col in range(0, len(candidate[0])):
+            if (candidate[row, col] == 1):
+                coordinate = (row, col)
+                coordinates_array.append(coordinate)
 
-    manhattan_center = 0
-    eval_manhattan_pegs = 0
-    #para cada coordenada
+    eval = 0
+    shypeg_penalty = 0
+
     for target in coordinates_array:
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
-        manhattan_pegs_sum = 0
-        #manhattan_sum = matriz_manhattan[target[0], target[1]] #distancia em relação ao centro, quanto maior, pior a avaliação
-        #print(matriz_manhattan[target[0], target[1]])
-        #calculando a distancia de manhattan de cada peça em relação às outras no tabuleiro
+        manhattan_sum = 0
+        if isShyPeg(target, candidate):
+            shypeg_penalty += 10000000
+
         for another_coordinate in aux_array:
-            manhattan_pegs = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
-            manhattan_pegs_sum += manhattan_pegs
+            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
+            manhattan_sum += manhattan
 
-        manhattan_center += matriz_manhattan[target[0], target[1]]
-        eval_manhattan_pegs += manhattan_pegs_sum
-
+        eval += manhattan_sum
 
     total_of_pegs = len(coordinates_array)
-    final_eval_manhattan_pegs = eval_manhattan_pegs/total_of_pegs
-    final_eval = final_eval_manhattan_pegs + manhattan_center
+    final_manhattan_eval = eval/total_of_pegs
+    final_eval = final_manhattan_eval + shypeg_penalty
 
     return final_eval
 
@@ -89,7 +127,6 @@ def isFinalState(parent):
 DESCRIÇÃO: 
 """
 def verificaIndiceDoMelhorCandidato(candidates):
-    coordinates_array = []
     evaluations_array = []
     heapq.heapify(evaluations_array)
     global idsDictionary
@@ -104,25 +141,20 @@ def verificaIndiceDoMelhorCandidato(candidates):
         if id in idsDictionary:
             eval = idsDictionary[id]#retorna a avaliação que, anteriormente, foi calculada para outro estado equivalente a este passado no parametro
         else:
-            for row in range(0, len(candidate)):
-                for col in range(0, len(candidate[0])):
-                    if(candidate[row, col] == 1):
-                        coordinate = (row, col)
-                        coordinates_array.append(coordinate)
-
-            eval = evaluate(coordinates_array)
+            eval = evaluate(candidate)
             idsDictionary[id] = eval
 
-        #evaluations_array.append(eval)
+
         heapq.heappush(evaluations_array, (eval, index_candidate))
+
 
     print('A quantidade total de candidatos é: ', len(evaluations_array))
     # print('São eles: ')
     # for eval in evaluations_array:
     #     print(eval, " | ",end="")
     # print("")
-    #print("qtd no heap: ", len(evaluations_array))
-    #print(evaluations_array)
+    # print("qtd no heap: ", len(evaluations_array))
+    # print(evaluations_array)
     best_eval,index_of_best = heapq.heappop(evaluations_array)
 
     print('A nota do melhor candidato é: ', round(best_eval, 2))
