@@ -12,7 +12,7 @@ __author__ = "Matheus Lima Machado [RGA: 201519060068]"
 import numpy
 from random import randint
 import heapq
-#import winsound
+import winsound
 import os
 import time
 
@@ -36,23 +36,26 @@ DESCRIÇÃO:
 def evaluate(coordinates_array):
 
     global matriz_manhattan
-    # global globalDictionary
-    eval = 0
+
+    manhattan_center = 0
+    eval_manhattan_pegs = 0
     #para cada coordenada
     for target in coordinates_array:
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
-        manhattan_sum = 0
+        manhattan_pegs_sum = 0
         #manhattan_sum = matriz_manhattan[target[0], target[1]] #distancia em relação ao centro, quanto maior, pior a avaliação
         #print(matriz_manhattan[target[0], target[1]])
         #calculando a distancia de manhattan de cada peça em relação às outras no tabuleiro
         for another_coordinate in aux_array:
-            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
-            manhattan_sum += manhattan
+            manhattan_pegs = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
+            manhattan_pegs_sum += manhattan_pegs
 
-        manhattan_sum += matriz_manhattan[target[0], target[1]]
-        eval += manhattan_sum
+        manhattan_center += matriz_manhattan[target[0], target[1]]
+        eval_manhattan_pegs += manhattan_pegs_sum
 
-
+    print("sua nota de manhattan_center: ", manhattan_center)
+    print("sua nota de manhattan_pegs: ", eval_manhattan_pegs)
+    eval = manhattan_center + eval_manhattan_pegs
     total_of_pegs = len(coordinates_array)
     final_eval = eval/total_of_pegs
     return final_eval
@@ -251,7 +254,7 @@ def aEstrela(estado):
             print('Sucesso! Encontrei a solução!')
             print("Aqui está:")
             print(parent)
-            #winsound.Beep(420, 4000)
+            winsound.Beep(420, 4000)
             # for x in range(0,3):
             #     os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 440))
             # os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
@@ -272,7 +275,7 @@ def aEstrela(estado):
         else:
             visited.append(parent)
             print("Já visitei: ", len(visited), " estados")
-            print("O último visitado era um estéril!")
+            #print("O último visitado era um estéril!")
             print("\n")
             candidates.pop(parentIndex)
 
