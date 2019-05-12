@@ -44,6 +44,7 @@ def isShyPeg(target, candidate):
     elif (x, y) == (0,3):
         # verifica lateral esquerda e cima
         if candidate[0,2] == 0 and candidate[1,3] == 0 and candidate[0,4] == 0:
+            print("Disgraça!")
             shypeg = True
     elif (x, y) == (3,0):
         # verifica lateral esquerda e cima
@@ -71,34 +72,82 @@ def getCoordinates(state):
 
     return coordinates_list
 
+def lookForGoodMovements(mvmts):
+    goodMovements = 0
+    for row in mvmts:
+        for mvmt in row:
+            origin_coordinate = mvmt[0]
+            x = origin_coordinate[0]
+            y = origin_coordinate[1]
 
+            #se o movimento estiver no quadrante de cima
+            if (x,y) == (0,2) or (x,y) == (0,3) or (x,y) == (0,4) or (x,y) == (1,2) or (x,y) == (1,3) or (x,y) == (1,4):
+                goodMovements += 10
+            # se o movimento estiver no quadrante da esquerda
+            elif (x,y) == (2,0) or (x,y) == (2,1) or (x,y) == (3,0) or (x,y) == (3,1) or (x,y) == (4,0) or (x,y) == (4,1):
+                goodMovements += 10
+            # se o movimento estiver no quadrante da direita
+            elif (x,y) == (2,5) or (x,y) == (2,6) or (x,y) == (3,5) or (x,y) == (3,6) or (x,y) == (4,5) or (x,y) == (4,6):
+                goodMovements += 10
+            # se o movimento estiver no quadrante de baixo
+            elif (x,y) == (5,2) or (x,y) == (5,3) or (x,y) == (5,4) or (x,y) == (6,2) or (x,y) == (6,3) or (x,y) == (6,4):
+                goodMovements += 10
+
+    return goodMovements
+
+def calculateSumOfManhattanBetweenPegs(target, coordinates_list):
+    manhattan_sum = 0
+    for another_coordinate in coordinates_list:
+        manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  # |X1-X2| + |Y1-Y2|
+        manhattan_sum += manhattan
+    return manhattan_sum
 """
 DESCRIÇÃO: 'shypeg' siginifica peça tímida. Faz alusão às peças que ficam nas bordas isoladas das outras.
 """
 def evaluate(candidate):
     coordinates_list = getCoordinates(candidate)
+    possibleMovements = searchPossibleMovements(candidate)
+    goodMovements = lookForGoodMovements(possibleMovements)
 
+    manhattan_center = numpy.matrix([[0, 0, 4, 3, 4, 0, 0],
+                                     [0, 0, 3, 2, 3, 0, 0],
+                                     [4, 3, 2, 1, 2, 3, 4],
+                                     [3, 2, 1, 0, 1, 2, 3],
+                                     [4, 3, 2, 1, 2, 3, 4],
+                                     [0, 0, 3, 2, 3, 0, 0],
+                                     [0, 0, 4, 3, 4, 0, 0]])
     manhattan_eval = 0
     shypeg_penalty = 0
+    farFromCenterPenalty = 0
+
+    weight_FFCP = 1
+    weight_GM = 0
+    weight_M = 0
+    weight_DF = 0
+    weight_SPP = 0
+
+    print("FILHO ANALISADO")
+    print(candidate)
+    total_of_pegs = len(coordinates_list)
 
     for target in coordinates_list:
-        aux_array = coordinates_list.copy() # aqui é usado uma cópia para não alterar o vetor de coordenadas original
-        manhattan_sum = 0
-        if isShyPeg(target, candidate):
-            shypeg_penalty += 1
-
-        for another_coordinate in aux_array:
-            manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
-            manhattan_sum += manhattan
-
+        farFromCenterPenalty += manhattan_center[target]
+        manhattan_sum = calculateSumOfManhattanBetweenPegs(target, coordinates_list)
         manhattan_eval += manhattan_sum
 
+    print("SUA NOTA centro: ", farFromCenterPenalty)
 
-    total_of_pegs = len(coordinates_list)
     depth_factor = 1024 - ((32-total_of_pegs) ** 2)
-    final_manhattan_eval = manhattan_eval/total_of_pegs
+    print("SUA NOTA profundidade: ", depth_factor)
 
-    final_eval = final_manhattan_eval + (shypeg_penalty**(2**(shypeg_penalty))) + depth_factor
+    final_manhattan_eval = (manhattan_eval/total_of_pegs)
+    print("SUA NOTA manhattan: ", final_manhattan_eval)
+
+    total_shypeg_penalty = shypeg_penalty**(2**(shypeg_penalty))
+    print("SUA NOTA shypeg: ", total_shypeg_penalty)
+
+    final_eval = (final_manhattan_eval*weight_M) + (total_shypeg_penalty*weight_SPP) + (farFromCenterPenalty*weight_FFCP) + (depth_factor*weight_DF) - (goodMovements*weight_GM)
+    print("SUA NOTA final: ", final_eval)
 
     return final_eval
 
@@ -197,11 +246,11 @@ def generateSons(parent):
         for mvmt in row:  # 'mvmt' corresponde à lista das 3 coordenadas das peças que estarão sendo movimentadas/alteradas
             parent_copy = parent.copy()
             son = move(parent_copy, mvmt)
-            #list_of_sons.append(son)
-            current_id = calculateIdentifier(son)
-            if previous_id != current_id:
-                list_of_sons.append(son)
-                previous_id = current_id
+            list_of_sons.append(son)
+            # current_id = calculateIdentifier(son)
+            # if previous_id != current_id:
+            #     list_of_sons.append(son)
+            #     previous_id = current_id
 
     print('Gerei ',len(list_of_sons),' filhos a partir do melhor candidato!')
 
@@ -335,6 +384,12 @@ class doubly_linked_list:
          last = node
          node = node.best_son
 
+def findSolutionPath(state, visited):
+    if state in visited:
+        print()
+
+
+
 def aStar(state):
     linked_list = doubly_linked_list()
     candidates = [state]
@@ -350,6 +405,8 @@ def aStar(state):
         linked_list.push(parent)
 
         if(isFinalState(parent)):
+            visited.append(parent)
+            candidates.pop(parentIndex)
             solutionNotFound = False
             theEnd = time.time()
             print("TEMPO DE EXECUÇÃO: ",round(theEnd - start, 3), "segundos")
@@ -357,7 +414,7 @@ def aStar(state):
             print("Aqui está:")
             print(parent)
             #winsound.Beep(420, 4000)
-
+            #findSolutionPath(parent, visited)
             linked_list.listprint(linked_list.head)
 
             # for x in range(0,3):
@@ -400,16 +457,16 @@ if __name__ == '__main__':
     start = time.time()
 
     #DIFICULDADE: SUPERHARD -------------------------------------------------
-    # inicial_state_received = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-    #                                       [0, 0, 1, 1, 1, 0, 0],
-    #                                       [1, 1, 1, 1, 1, 1, 1],
-    #                                       [1, 1, 1, 0, 1, 1, 1],
-    #                                       [1, 1, 1, 1, 1, 1, 1],
-    #                                       [0, 0, 1, 1, 1, 0, 0],
-    #                                       [0, 0, 1, 1, 1, 0, 0]])
-    #
-    # treated_inicial_state = cleanEmptyPositions(inicial_state_received)
-    # aStar(treated_inicial_state)
+    inicial_state_received = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+                                          [0, 0, 1, 1, 1, 0, 0],
+                                          [1, 1, 1, 1, 1, 1, 1],
+                                          [1, 1, 1, 0, 1, 1, 1],
+                                          [1, 1, 1, 1, 1, 1, 1],
+                                          [0, 0, 1, 1, 1, 0, 0],
+                                          [0, 0, 1, 1, 1, 0, 0]])
+
+    treated_inicial_state = cleanEmptyPositions(inicial_state_received)
+    aStar(treated_inicial_state)
 
     # DIFICULDADE: DIFÍCIL -------------------------------------------------
     # treated_inicial_state = numpy.array([[-1, -1, 0, 1, 0, -1, -1],
@@ -446,11 +503,11 @@ if __name__ == '__main__':
     # aStar(treated_inicial_state)
 
     # DIFICULDADE: SUPEREASY ----------------------------------------------------
-    treated_inicial_state = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-                                           [-1, -1, 0, 1, 0, -1, -1],
-                                           [ 0,  0, 1, 1, 1,  0,  0],
-                                           [ 0,  0, 0, 1, 0,  0,  0],
-                                           [ 0,  0, 0, 1, 0,  0,  0],
-                                           [-1, -1, 0, 0, 0, -1, -1],
-                                           [-1, -1, 0, 0, 0, -1, -1]])
-    aStar(treated_inicial_state)
+    # treated_inicial_state = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+    #                                      [-1, -1, 0, 1, 0, -1, -1],
+    #                                      [ 0,  0, 1, 1, 1,  0,  0],
+    #                                      [ 0,  0, 0, 1, 0,  0,  0],
+    #                                      [ 0,  0, 0, 1, 0,  0,  0],
+    #                                      [-1, -1, 0, 0, 0, -1, -1],
+    #                                      [-1, -1, 0, 0, 0, -1, -1]])
+    # aStar(treated_inicial_state)
