@@ -291,9 +291,52 @@ def searchTheIndexOfTheBestCandidate(candidates):
 
     return index_of_best
 
+# class Tree:
+#     def __init__(self, state):
+#         self.parent = None
+#         self.state = state
+#         self.movement = None
+#
+#     def createSon(self, parent, state, movement=""):
+#         self.parent = parent
+#         self.state = state
+#         self.movement = movement
+#
+#     def show(self, state):
+#         if self.parent is not None:
+#             print(state)
+#             self.show(self.parent)
+
+class Node:
+   def __init__(self, state):
+      self.state = state
+      self.best_son = None
+      self.parent = None
+
+
+class doubly_linked_list:
+
+   def __init__(self):
+      self.head = None
+
+
+   def push(self, NewVal):
+      NewNode = Node(NewVal)
+      NewNode.best_son = self.head
+      if self.head is not None:
+         self.head.parent = NewNode
+      self.head = NewNode
+
+# Print the Doubly Linked list
+   def listprint(self, node):
+      while (node is not None):
+         print("\n")
+         print(node.state),
+         last = node
+         node = node.best_son
 
 def aStar(state):
-
+    linked_list = doubly_linked_list()
     candidates = [state]
     visited = []
     solutionNotFound = True
@@ -304,6 +347,7 @@ def aStar(state):
 
         parentIndex = searchTheIndexOfTheBestCandidate(candidates)
         parent = candidates[parentIndex]
+        linked_list.push(parent)
 
         if(isFinalState(parent)):
             solutionNotFound = False
@@ -312,7 +356,10 @@ def aStar(state):
             print('Sucesso! Encontrei a solução!')
             print("Aqui está:")
             print(parent)
-            winsound.Beep(420, 4000)
+            #winsound.Beep(420, 4000)
+
+            linked_list.listprint(linked_list.head)
+
             # for x in range(0,3):
             #     os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 440))
             # os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 440))
@@ -345,6 +392,7 @@ def cleanEmptyPositions(inicial_state_received):
     treated_inicial_state[3][3] = 0
     return treated_inicial_state
 
+
 """
 DESCRIÇÃO: Este método é responsável por executar o programa.
 """
@@ -352,16 +400,16 @@ if __name__ == '__main__':
     start = time.time()
 
     #DIFICULDADE: SUPERHARD -------------------------------------------------
-    inicial_state_received = numpy.array([[0, 0, 1, 1, 1, 0, 0],
-                                          [0, 0, 1, 1, 1, 0, 0],
-                                          [1, 1, 1, 1, 1, 1, 1],
-                                          [1, 1, 1, 0, 1, 1, 1],
-                                          [1, 1, 1, 1, 1, 1, 1],
-                                          [0, 0, 1, 1, 1, 0, 0],
-                                          [0, 0, 1, 1, 1, 0, 0]])
-
-    treated_inicial_state = cleanEmptyPositions(inicial_state_received)
-    aStar(treated_inicial_state)
+    # inicial_state_received = numpy.array([[0, 0, 1, 1, 1, 0, 0],
+    #                                       [0, 0, 1, 1, 1, 0, 0],
+    #                                       [1, 1, 1, 1, 1, 1, 1],
+    #                                       [1, 1, 1, 0, 1, 1, 1],
+    #                                       [1, 1, 1, 1, 1, 1, 1],
+    #                                       [0, 0, 1, 1, 1, 0, 0],
+    #                                       [0, 0, 1, 1, 1, 0, 0]])
+    #
+    # treated_inicial_state = cleanEmptyPositions(inicial_state_received)
+    # aStar(treated_inicial_state)
 
     # DIFICULDADE: DIFÍCIL -------------------------------------------------
     # treated_inicial_state = numpy.array([[-1, -1, 0, 1, 0, -1, -1],
@@ -398,11 +446,11 @@ if __name__ == '__main__':
     # aStar(treated_inicial_state)
 
     # DIFICULDADE: SUPEREASY ----------------------------------------------------
-    # treated_inicial_state = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 1, 0, -1, -1],
-    #                                        [ 0,  0, 1, 1, 1,  0,  0],
-    #                                        [ 0,  0, 0, 1, 0,  0,  0],
-    #                                        [ 0,  0, 0, 1, 0,  0,  0],
-    #                                        [-1, -1, 0, 0, 0, -1, -1],
-    #                                        [-1, -1, 0, 0, 0, -1, -1]])
-    # aStar(treated_inicial_state)
+    treated_inicial_state = numpy.array([[-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 1, 0, -1, -1],
+                                           [ 0,  0, 1, 1, 1,  0,  0],
+                                           [ 0,  0, 0, 1, 0,  0,  0],
+                                           [ 0,  0, 0, 1, 0,  0,  0],
+                                           [-1, -1, 0, 0, 0, -1, -1],
+                                           [-1, -1, 0, 0, 0, -1, -1]])
+    aStar(treated_inicial_state)
