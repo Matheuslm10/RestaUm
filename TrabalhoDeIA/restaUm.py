@@ -84,7 +84,7 @@ def evaluate(candidate):
         aux_array = coordinates_array.copy() #uso uma copia para não alterar o vetor de coordenadas original
         manhattan_sum = 0
         if isShyPeg(target, candidate):
-            shypeg_penalty += 10000000
+            shypeg_penalty += 100000
 
         for another_coordinate in aux_array:
             manhattan = abs(target[0] - another_coordinate[0]) + abs(target[1] - another_coordinate[1])  #|X1-X2| + |Y1-Y2|
