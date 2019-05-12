@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16dfc84-e420-4d8b-bc0d-134ff95e8452" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaUm.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaUm.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="59" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="59" />
+            <state relative-caret-position="137">
+              <caret line="135" column="37" selection-start-line="135" selection-start-column="37" selection-end-line="135" selection-end-column="37" />
               <folding>
                 <element signature="e#296#308#0" expanded="true" />
               </folding>
@@ -320,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557641795231</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="é possível distribuir pesos para heurísticas">
+      <created>1557681958879</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1557681958879</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -332,7 +338,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1825273" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32917318" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.57977885" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -363,7 +369,8 @@
     <MESSAGE value="localiza peças nas bordas e verifica se estão isoladas" />
     <MESSAGE value="o código todo está em inglês agora" />
     <MESSAGE value="implementando estrategia para imprimir solução" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementando estrategia para imprimir solução" />
+    <MESSAGE value="é possível distribuir pesos para heurísticas" />
+    <option name="LAST_COMMIT_MESSAGE" value="é possível distribuir pesos para heurísticas" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
@@ -417,8 +424,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/restaUm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="59" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="59" />
+        <state relative-caret-position="137">
+          <caret line="135" column="37" selection-start-line="135" selection-start-column="37" selection-end-line="135" selection-end-column="37" />
           <folding>
             <element signature="e#296#308#0" expanded="true" />
           </folding>

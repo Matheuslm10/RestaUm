@@ -120,14 +120,12 @@ def evaluate(candidate):
     shypeg_penalty = 0
     farFromCenterPenalty = 0
 
-    weight_FFCP = 1
-    weight_GM = 0
-    weight_M = 0
+    weight_FFCP = 1 #1° heuristica
+    weight_M = 0    #2° heuristica
     weight_DF = 0
     weight_SPP = 0
+    weight_GM = 0
 
-    print("FILHO ANALISADO")
-    print(candidate)
     total_of_pegs = len(coordinates_list)
 
     for target in coordinates_list:
@@ -135,19 +133,13 @@ def evaluate(candidate):
         manhattan_sum = calculateSumOfManhattanBetweenPegs(target, coordinates_list)
         manhattan_eval += manhattan_sum
 
-    print("SUA NOTA centro: ", farFromCenterPenalty)
-
-    depth_factor = 1024 - ((32-total_of_pegs) ** 2)
-    print("SUA NOTA profundidade: ", depth_factor)
+    depth_factor = total_of_pegs * 32
 
     final_manhattan_eval = (manhattan_eval/total_of_pegs)
-    print("SUA NOTA manhattan: ", final_manhattan_eval)
 
     total_shypeg_penalty = shypeg_penalty**(2**(shypeg_penalty))
-    print("SUA NOTA shypeg: ", total_shypeg_penalty)
 
     final_eval = (final_manhattan_eval*weight_M) + (total_shypeg_penalty*weight_SPP) + (farFromCenterPenalty*weight_FFCP) + (depth_factor*weight_DF) - (goodMovements*weight_GM)
-    print("SUA NOTA final: ", final_eval)
 
     return final_eval
 
