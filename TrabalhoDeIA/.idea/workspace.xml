@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a16dfc84-e420-4d8b-bc0d-134ff95e8452" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/TrabalhoDeIA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TrabalhoDeIA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaUm.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaUm.py" afterDir="false" />
     </list>
@@ -16,29 +18,28 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restaUm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="344" lean-forward="true" selection-start-line="344" selection-end-line="344" />
+            <state>
+              <caret line="293" selection-start-line="293" selection-end-line="293" />
               <folding>
                 <element signature="e#296#308#0" expanded="true" />
+                <element signature="e#483#1698#0" />
+                <element signature="e#2082#2344#0" />
+                <element signature="e#1118#1137#1" />
+                <element signature="e#498#1861#0" />
+                <element signature="e#3076#3315#1" />
+                <element signature="e#3118#3319#0" />
+                <element signature="e#4596#4937#1" />
+                <element signature="e#3992#4392#0" />
+                <element signature="e#4564#6984#0" />
+                <element signature="e#7003#7809#0" />
+                <element signature="e#7842#8249#0" />
+                <element signature="e#8186#9646#0" />
+                <element signature="e#8252#8451#1" />
+                <element signature="e#8506#9236#0" />
+                <element signature="e#9281#10820#0" />
+                <element signature="e#12344#12430#1" />
+                <element signature="e#12484#12645#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_frame_eval/pydevd_frame_tracing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="95" selection-start-line="95" selection-end-line="95" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/TrabalhoDeIA/venv/Lib/site-packages/numpy/matrixlib/defmatrix.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3686">
-              <caret line="194" selection-start-line="194" selection-end-line="194" />
             </state>
           </provider>
         </entry>
@@ -54,13 +55,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>9</find>
-      <find>func_avaliacao</find>
-      <find>evaluations_list</find>
-      <find>list_of_</find>
-      <find>estado</find>
-      <find>list_of_sons</find>
-      <find>son</find>
       <find>Número de peças no tabuleiro:  2</find>
       <find>posicao aleatoria escolhida:</find>
       <find>Número de peças no tabuleiro:  3</find>
@@ -84,6 +78,13 @@
       <find>es</find>
       <find>heap</find>
       <find>shy</find>
+      <find>pop</find>
+      <find>print(p</find>
+      <find>print(c</find>
+      <find>pyv</find>
+      <find>generate</find>
+      <find>iden</find>
+      <find>calculateIde</find>
     </findStrings>
     <replaceStrings>
       <replace>9</replace>
@@ -98,7 +99,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="h4&amp;h1" />
+        <entry key="$PROJECT_DIR$/.." value="shypegs" />
       </map>
     </option>
   </component>
@@ -317,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557589468745</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="localiza peças nas bordas e verifica se estão isoladas">
+      <created>1557608467885</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1557608467900</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -328,7 +336,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917318" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.19656786" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27145085" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.37285492" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -356,7 +364,8 @@
     <MESSAGE value="Implementei a fila de prioridade" />
     <MESSAGE value="comecei" />
     <MESSAGE value="implementado" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementado" />
+    <MESSAGE value="localiza peças nas bordas e verifica se estão isoladas" />
+    <option name="LAST_COMMIT_MESSAGE" value="localiza peças nas bordas e verifica se estão isoladas" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
@@ -410,10 +419,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/restaUm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="344" lean-forward="true" selection-start-line="344" selection-end-line="344" />
+        <state>
+          <caret line="293" selection-start-line="293" selection-end-line="293" />
           <folding>
             <element signature="e#296#308#0" expanded="true" />
+            <element signature="e#483#1698#0" />
+            <element signature="e#2082#2344#0" />
+            <element signature="e#1118#1137#1" />
+            <element signature="e#498#1861#0" />
+            <element signature="e#3076#3315#1" />
+            <element signature="e#3118#3319#0" />
+            <element signature="e#4596#4937#1" />
+            <element signature="e#3992#4392#0" />
+            <element signature="e#4564#6984#0" />
+            <element signature="e#7003#7809#0" />
+            <element signature="e#7842#8249#0" />
+            <element signature="e#8186#9646#0" />
+            <element signature="e#8252#8451#1" />
+            <element signature="e#8506#9236#0" />
+            <element signature="e#9281#10820#0" />
+            <element signature="e#12344#12430#1" />
+            <element signature="e#12484#12645#0" />
           </folding>
         </state>
       </provider>
